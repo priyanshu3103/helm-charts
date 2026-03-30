@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  helm-argocd:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-03-30T08:36:24.711664+05:30"
+    description: A Helm chart for Kubernetes
+    digest: aa27b4cf0e88de7c7c354738aab12289fc719ba92ea608ae138254e281ea6fb3
+    name: helm-argocd
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/helm-argocd-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-03-30T08:36:24.710573+05:30"
