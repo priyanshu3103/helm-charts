@@ -3,7 +3,17 @@ entries:
   helm-argocd:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-03-31T13:26:15.825137+05:30"
+    created: "2026-03-31T13:34:39.425519+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 08e1ecb9ec360c3350b9186f89f4dd7fcd464591596f979515ef074b40ab457b
+    name: helm-argocd
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/helm-argocd-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-03-31T13:34:39.424536+05:30"
     description: A Helm chart for Kubernetes
     digest: 1214e1317b0790de93d8d057e7601e9ccf3f1d648e0cd59478ff290d4418d402
     name: helm-argocd
@@ -13,7 +23,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-03-31T13:26:15.824276+05:30"
+    created: "2026-03-31T13:34:39.424041+05:30"
     description: A Helm chart for Kubernetes
     digest: 0c20ab69a770aaf06167d777ddee8ca216a64078f47a586f98f686650da72c6a
     name: helm-argocd
@@ -23,7 +33,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-03-31T13:26:15.823905+05:30"
+    created: "2026-03-31T13:34:39.42362+05:30"
     description: A Helm chart for Kubernetes
     digest: aa27b4cf0e88de7c7c354738aab12289fc719ba92ea608ae138254e281ea6fb3
     name: helm-argocd
@@ -31,4 +41,4 @@ entries:
     urls:
     - https://priyanshu3103.github.io/helm-charts/helm-argocd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-31T13:26:15.822909+05:30"
+generated: "2026-03-31T13:34:39.422028+05:30"
