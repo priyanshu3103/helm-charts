@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: jenkins/jenkins
-  tag: "2.504-jdk17"
+  tag: "2.504-jdk25-slim"
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -52,3 +52,8 @@ resources:
 env:
   - name: JAVA_OPTS
     value: "-Djenkins.install.runSetupWizard=false"
+  - name: CASC_JENKINS_CONFIG
+    value: "/var/jenkins_home/casc_configs/jenkins.yaml"
+
+casc:
+  configMapName: jenkins-jenkins-casc

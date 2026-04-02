@@ -16,6 +16,21 @@ spec:
         {{- include "jenkins.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "jenkins.serviceAccountName" . }}
+      initContainers:
+        - name: install-plugins
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - jenkins-plugin-cli
+            - --plugins
+            - >-
+              kubernetes:4306.vc91e951ea_eb_d
+              workflow-aggregator:600.vb_57cdd26fdd7
+              git:5.7.0
+              configuration-as-code:1932.v75cb_b_f1b_698b
+              job-dsl:1.90
+          volumeMounts:
+            - name: plugins
+              mountPath: /usr/share/jenkins/ref/plugins
       containers:
         - name: jenkins
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -33,7 +48,7 @@ spec:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 30
             timeoutSeconds: 10
             failureThreshold: 5
@@ -41,9 +56,20 @@ spec:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: casc-config
+              mountPath: /var/jenkins_home/casc_configs
+            - name: plugins
+              mountPath: /usr/share/jenkins/ref/plugins
+      volumes:
+        - name: casc-config
+          configMap:
+            name: {{ include "jenkins.fullname" . }}-casc
+        - name: plugins
+          emptyDir: {}
