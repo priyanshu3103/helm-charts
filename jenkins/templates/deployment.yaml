@@ -23,11 +23,12 @@ spec:
             - jenkins-plugin-cli
             - --plugins
             - >-
-              kubernetes:4306.vc91e951ea_eb_d
-              workflow-aggregator:600.vb_57cdd26fdd7
-              git:5.7.0
-              configuration-as-code:1967.va_968d8c79672
-              job-dsl:1.90
+              kubernetes
+              workflow-aggregator
+              git
+              configuration-as-code
+              job-dsl
+
           volumeMounts:
             - name: plugins
               mountPath: /usr/share/jenkins/ref/plugins
