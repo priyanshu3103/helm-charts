@@ -16,61 +16,70 @@ spec:
         {{- include "jenkins.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "jenkins.serviceAccountName" . }}
+
       initContainers:
         - name: install-plugins
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command:
-            - jenkins-plugin-cli
-            - --plugins
-            - >-
-              kubernetes:4203.v1dd44f5b_1cf9
-              workflow-aggregator
-              git
-              configuration-as-code
+            - sh
+            - -c
+            - |
+              jenkins-plugin-cli --plugins \
+              kubernetes:4203.v1dd44f5b_1cf9 \
+              workflow-aggregator \
+              git \
+              configuration-as-code \
               job-dsl
-
           volumeMounts:
             - name: plugins
               mountPath: /usr/share/jenkins/ref/plugins
+
       containers:
         - name: jenkins
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+
           ports:
             - name: http
               containerPort: 8080
-              protocol: TCP
             - name: agent
               containerPort: 50000
-              protocol: TCP
+
           env:
             {{- toYaml .Values.env | nindent 12 }}
+            - name: JENKINS_HOME
+              value: /var/jenkins_home
+
           livenessProbe:
             httpGet:
               path: /login
               port: http
             initialDelaySeconds: 120
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 5
+
           readinessProbe:
             httpGet:
               path: /login
               port: http
             initialDelaySeconds: 120
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
           volumeMounts:
             - name: casc-config
               mountPath: /var/jenkins_home/casc_configs
             - name: plugins
               mountPath: /usr/share/jenkins/ref/plugins
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+
       volumes:
         - name: casc-config
           configMap:
             name: {{ include "jenkins.fullname" . }}-casc
+
         - name: plugins
+          emptyDir: {}
+
+        - name: jenkins-home
           emptyDir: {}
