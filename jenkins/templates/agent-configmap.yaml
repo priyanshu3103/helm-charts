@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "jenkins.fullname" . }}-casc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "jenkins.labels" . | nindent 4 }}
+data:
+  jenkins.yaml: |
+    jenkins:
+      numExecutors: 0
+      mode: EXCLUSIVE
+    unclassified:
+      location:
+        url: "http://{{ (index .Values.ingress.hosts 0).host }}"
+    credentials:
+      system:
+        domainCredentials: []
+    security:
+      scriptApproval:
+        approvedSignatures: []
+    jobs: []
+    tool:
+      git:
+        installations:
+          - name: Default
+            home: git
+    kubernetes:
+      clouds:
+        - kubernetes:
+            name: "kubernetes"
+            serverUrl: "https://kubernetes.default.svc"
+            namespace: {{ .Release.Namespace | quote }}
+            jenkinsUrl: "http://{{ include "jenkins.fullname" . }}:{{ .Values.service.port }}"
+            jenkinsTunnel: "{{ include "jenkins.fullname" . }}:{{ .Values.service.agentPort }}"
+            connectTimeout: 5
+            readTimeout: 15
+            containerCapStr: "10"
+            podRetention: "never"
+            templates:
+              - name: "jenkins-agent"
+                namespace: {{ .Release.Namespace | quote }}
+                label: "jenkins-agent"
+                nodeUsageMode: NORMAL
+                conta
