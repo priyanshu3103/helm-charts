@@ -24,7 +24,9 @@ spec:
             - sh
             - -c
             - |
-              jenkins-plugin-cli --plugins \
+              jenkins-plugin-cli \
+              --plugin-download-directory=/usr/share/jenkins/ref/plugins \
+              --plugins \
               kubernetes:4203.v1dd44f5b_1cf9 \
               workflow-aggregator \
               git \
@@ -49,18 +51,24 @@ spec:
             {{- toYaml .Values.env | nindent 12 }}
             - name: JENKINS_HOME
               value: /var/jenkins_home
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
 
           livenessProbe:
             httpGet:
               path: /login
               port: http
             initialDelaySeconds: 120
+            timeoutSeconds: 10
+            periodSeconds: 30
 
           readinessProbe:
             httpGet:
               path: /login
               port: http
             initialDelaySeconds: 120
+            timeoutSeconds: 5
+            periodSeconds: 10
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
