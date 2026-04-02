@@ -26,7 +26,7 @@ spec:
               kubernetes:4306.vc91e951ea_eb_d
               workflow-aggregator:600.vb_57cdd26fdd7
               git:5.7.0
-              configuration-as-code:1932.v75cb_b_f1b_698b
+              configuration-as-code:1967.va_968d8c79672
               job-dsl:1.90
           volumeMounts:
             - name: plugins
