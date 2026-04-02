@@ -23,7 +23,7 @@ spec:
             - jenkins-plugin-cli
             - --plugins
             - >-
-              kubernetes
+              kubernetes:4203.v1dd44f5b_1cf9
               workflow-aggregator
               git
               configuration-as-code
