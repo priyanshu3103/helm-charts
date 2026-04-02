@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: jenkins/jenkins
-  tag: "2.504-jdk25-slim"
+  tag: "2.504-jdk17"
   pullPolicy: IfNotPresent
 
 serviceAccount:
