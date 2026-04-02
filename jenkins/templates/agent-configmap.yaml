@@ -42,4 +42,8 @@ data:
                 namespace: {{ .Release.Namespace | quote }}
                 label: "jenkins-agent"
                 nodeUsageMode: NORMAL
-                conta
+                containers:
+                  - name: jnlp
+                    image: "jenkins/inbound-agent:latest"
+                    args: "${computer.jnlpmac} ${computer.name}"
+                    ttyEnabled: true

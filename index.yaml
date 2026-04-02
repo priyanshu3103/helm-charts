@@ -3,7 +3,7 @@ entries:
   helm-argocd:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.763146+05:30"
+    created: "2026-04-02T21:26:20.524629+05:30"
     description: A Helm chart for Kubernetes
     digest: 12b4153078c908aeebd6db3a7cdc709ed3d04ed3e6d487a3e21edd671b0ce295
     name: helm-argocd
@@ -13,7 +13,7 @@ entries:
     version: 0.2.4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.762799+05:30"
+    created: "2026-04-02T21:26:20.524173+05:30"
     description: A Helm chart for Kubernetes
     digest: 3926432700f63bc5c1f9a4b578ab146d97f0c2919e974ac74db1f75e168db5f1
     name: helm-argocd
@@ -23,7 +23,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.761762+05:30"
+    created: "2026-04-02T21:26:20.523261+05:30"
     description: A Helm chart for Kubernetes
     digest: 08e1ecb9ec360c3350b9186f89f4dd7fcd464591596f979515ef074b40ab457b
     name: helm-argocd
@@ -33,7 +33,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.761372+05:30"
+    created: "2026-04-02T21:26:20.522777+05:30"
     description: A Helm chart for Kubernetes
     digest: 1214e1317b0790de93d8d057e7601e9ccf3f1d648e0cd59478ff290d4418d402
     name: helm-argocd
@@ -43,7 +43,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.761001+05:30"
+    created: "2026-04-02T21:26:20.522355+05:30"
     description: A Helm chart for Kubernetes
     digest: 0c20ab69a770aaf06167d777ddee8ca216a64078f47a586f98f686650da72c6a
     name: helm-argocd
@@ -53,7 +53,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-02T12:19:35.759625+05:30"
+    created: "2026-04-02T21:26:20.521799+05:30"
     description: A Helm chart for Kubernetes
     digest: aa27b4cf0e88de7c7c354738aab12289fc719ba92ea608ae138254e281ea6fb3
     name: helm-argocd
@@ -64,7 +64,17 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-02T12:19:35.765192+05:30"
+    created: "2026-04-02T21:26:20.526952+05:30"
+    description: Custom Jenkins Helm Chart with Master and Agents
+    digest: 04ec4a5d7960e126c5294b1e52ee9e727a6dbde0629eae71c8131a99743ed182
+    name: jenkins
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: "2.504"
+    created: "2026-04-02T21:26:20.52666+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: 5a7334d4a8f5dc5232a1fd4906d0bea5a349eec924ad3e8d0b1bc203732f62de
     name: jenkins
@@ -74,7 +84,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-02T12:19:35.764787+05:30"
+    created: "2026-04-02T21:26:20.526373+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: e85371e118bad8ffac7bd306766f94a4452286ca377634026c304089f8b8ec3d
     name: jenkins
@@ -84,7 +94,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-02T12:19:35.764495+05:30"
+    created: "2026-04-02T21:26:20.526054+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: 514b38b3d69c2aa78ed8c9fe383e22aa5d3f2c3e6dc50e910dcf7bd3a15c6f27
     name: jenkins
@@ -94,7 +104,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-02T12:19:35.764005+05:30"
+    created: "2026-04-02T21:26:20.525558+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: 69bc45484b3c8fdee780c0d28b299f0b32d7c42cf2a9ce3b3ef378857ba08888
     name: jenkins
@@ -104,7 +114,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-02T12:19:35.763456+05:30"
+    created: "2026-04-02T21:26:20.525171+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: 7eb1c410de8b180576b70928f701d95776c97ed1026b557e9bc2243a24f4f30c
     name: jenkins
@@ -112,4 +122,4 @@ entries:
     urls:
     - https://priyanshu3103.github.io/helm-charts/jenkins-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-02T12:19:35.758639+05:30"
+generated: "2026-04-02T21:26:20.521144+05:30"
