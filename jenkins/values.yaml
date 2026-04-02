@@ -1,0 +1,54 @@
+replicaCount: 1
+
+image:
+  repository: jenkins/jenkins
+  tag: "2.504-jdk17"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: jenkins
+
+service:
+  type: ClusterIP
+  port: 8080
+  agentPort: 50000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    traefik.ingress.kubernetes.io/router.tls: "false"
+  hosts:
+    - host: jenkins.localhost
+      paths:
+        - path: /
+          pathType: Prefix
+
+persistence:
+  enabled: false
+
+agent:
+  enabled: true
+  image:
+    repository: jenkins/inbound-agent
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+env:
+  - name: JAVA_OPTS
+    value: "-Djenkins.install.runSetupWizard=false"

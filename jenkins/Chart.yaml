@@ -1,0 +1,6 @@
+apiVersion: v2
+name: jenkins
+description: Custom Jenkins Helm Chart with Master and Agents
+type: application
+version: 0.1.0
+appVersion: "2.504"
