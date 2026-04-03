@@ -69,33 +69,34 @@ jobs:
         if: steps.changed.outputs.chart != ''
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+          CHART: ${{ steps.changed.outputs.chart }}
+          VERSION: ${{ steps.changed.outputs.version }}
         run: |
           git clone https://priyanshu3103:$GH_PAT@github.com/priyanshu3103/helm-argocd.git
           cd helm-argocd
 
-          python3 - <<'EOF'
-              import re
-                      
-              chart = "${{ steps.changed.outputs.chart }}"
-              version = "${{ steps.changed.outputs.version }}"
-                      
-              with open("root-app/values.yaml", "r") as f:
-                  content = f.read()
-              
-              # Find the app block and update version
-              pattern = r'(- name: ' + chart + r'.*?version: )[^\n]+'
-              replacement = r'\g<1>' + version
-              new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-              
-              with open("root-app/values.yaml", "w") as f:
-                  f.write(new_content)
-              
-              print(f"Updated {chart} to version {version}")
-              EOF
-              
-                        git config user.name "github-actions"
-                        git config user.email "github-actions@github.com"
-                        git add root-app/values.yaml
-                        git diff --staged
-                        git commit -m "Update ${{ steps.changed.outputs.chart }} to v${{ steps.changed.outputs.version }}" || echo "No changes to commit"
-                        git push
+          python3 - <<EOF
+          import re
+
+          chart = "$CHART"
+          version = "$VERSION"
+
+          with open("root-app/values.yaml", "r") as f:
+              content = f.read()
+          
+          pattern = r'(- name: ' + chart + r'.*?version: )[^\n]+'
+          replacement = r'\g<1>' + version
+          new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+          
+          with open("root-app/values.yaml", "w") as f:
+              f.write(new_content)
+          
+          print(f"Updated {chart} to version {version}")
+          EOF
+          
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add root-app/values.yaml
+          git diff --staged
+          git commit -m "Update $CHART to v$VERSION" || echo "No changes to commit"
+          git push
