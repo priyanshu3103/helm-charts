@@ -7,14 +7,18 @@ on:
     paths:
       - 'charts/**'
 
+permissions:
+  contents: write
+
 jobs:
-  release:
+  chart-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout helm-charts
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          token: ${{ secrets.GH_PAT }}
 
       - name: Install Helm
         uses: azure/setup-helm@v4
@@ -35,10 +39,6 @@ jobs:
         run: |
           CHART=${{ steps.changed.outputs.chart }}
           NEW_VERSION=${{ steps.changed.outputs.version }}
-          
-          echo "Deleting old versions of $CHART except $NEW_VERSION..."
-          
-          # Find and delete all old .tgz for this chart
           for f in ${CHART}-*.tgz; do
             if [ "$f" != "${CHART}-${NEW_VERSION}.tgz" ]; then
               echo "Deleting $f"
@@ -80,12 +80,3 @@ jobs:
           git add root-app/values.yaml
           git commit -m "Update ${{ steps.changed.outputs.chart }} to v${{ steps.changed.outputs.version }}"
           git push
-
-      - name: Trigger ArgoCD sync
-        if: steps.changed.outputs.chart != ''
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        run: |
-          curl -s -X POST http://argohelm.localhost/api/v1/applications/root-app/sync \
-            -H "Content-Type: application/json" \
-            -d '{"prune":true,"force":true}'
