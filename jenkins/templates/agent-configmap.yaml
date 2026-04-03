@@ -10,22 +10,6 @@ data:
     jenkins:
       numExecutors: 0
       mode: EXCLUSIVE
-    unclassified:
-      location:
-        url: "http://{{ (index .Values.ingress.hosts 0).host }}"
-    credentials:
-      system:
-        domainCredentials: []
-    security:
-      scriptApproval:
-        approvedSignatures: []
-    jobs: []
-    tool:
-      git:
-        installations:
-          - name: Default
-            home: git
-    kubernetes:
       clouds:
         - kubernetes:
             name: "kubernetes"
@@ -47,3 +31,18 @@ data:
                     image: "jenkins/inbound-agent:latest"
                     args: "${computer.jnlpmac} ${computer.name}"
                     ttyEnabled: true
+    unclassified:
+      location:
+        url: "http://{{ (index .Values.ingress.hosts 0).host }}"
+    credentials:
+      system:
+        domainCredentials: []
+    security:
+      scriptApproval:
+        approvedSignatures: []
+    jobs: []
+    tool:
+      git:
+        installations:
+          - name: Default
+            home: git
