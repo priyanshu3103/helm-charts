@@ -20,7 +20,8 @@ data:
       authorizationStrategy:
         github:
           adminUserNames: "priyanshu3103"
-          allowAnonymousJobStatusVisible: false
+          agentUserName: ""
+          allowAnonymousJobStatusPermission: false
           allowAnonymousReadPermission: false
           allowCcTrayPermission: false
           allowGithubWebHookPermission: false
