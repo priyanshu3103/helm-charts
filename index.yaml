@@ -3,12 +3,12 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-03T05:48:44.248300007Z"
+    created: "2026-04-03T07:32:47.856018863Z"
     description: Custom Jenkins Helm Chart with Master and Agents
-    digest: e033f083de57f5d05432015d92d52e716488f46cd725284c4cd9a3bfc3d50c79
+    digest: d2be7c128af3312209d6c615b6385dc849f358aed3bc6f8d60f57a1d6eb7befa
     name: jenkins
     type: application
     urls:
-    - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.16.tgz
-    version: 0.2.16
-generated: "2026-04-03T05:48:44.247810723Z"
+    - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.17.tgz
+    version: 0.2.17
+generated: "2026-04-03T07:32:47.85535479Z"
