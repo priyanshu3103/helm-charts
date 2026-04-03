@@ -31,7 +31,8 @@ spec:
               workflow-aggregator \
               git \
               configuration-as-code \
-              job-dsl
+              job-dsl \
+              github-oauth
           volumeMounts:
             - name: plugins
               mountPath: /usr/share/jenkins/ref/plugins
@@ -53,6 +54,11 @@ spec:
               value: /var/jenkins_home
             - name: JAVA_OPTS
               value: "-Djenkins.install.runSetupWizard=false"
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-github-sso
+                  key: clientSecret
 
           livenessProbe:
             httpGet:

@@ -10,6 +10,24 @@ data:
     jenkins:
       numExecutors: 0
       mode: EXCLUSIVE
+      securityRealm:
+        github:
+          githubWebUri: "https://github.com"
+          githubApiUri: "https://api.github.com"
+          clientID: "Ov23liaF49Qq14uOhF33"
+          clientSecret: "${GITHUB_CLIENT_SECRET}"
+          oauthScopes: "read:org,user:email"
+      authorizationStrategy:
+        github:
+          adminUserNames: "priyanshu3103"
+          allowAnonymousJobStatusVisible: false
+          allowAnonymousReadPermission: false
+          allowCcTrayPermission: false
+          allowGithubWebHookPermission: false
+          authenticatedUserCreateJobPermission: false
+          authenticatedUserReadPermission: true
+          organizationNames: ""
+          useRepositoryPermissions: false
       clouds:
         - kubernetes:
             name: "kubernetes"
