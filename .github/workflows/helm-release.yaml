@@ -1,0 +1,68 @@
+name: Release Helm Charts
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'charts/**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout helm-charts
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Get changed charts
+        id: changed
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- charts/ | grep Chart.yaml | sed 's|charts/||;s|/Chart.yaml||' | head -1)
+          echo "chart=$CHANGED" >> $GITHUB_OUTPUT
+          if [ -n "$CHANGED" ]; then
+            VERSION=$(grep '^version:' charts/$CHANGED/Chart.yaml | awk '{print $2}')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Chart: $CHANGED, Version: $VERSION"
+          fi
+
+      - name: Package chart
+        if: steps.changed.outputs.chart != ''
+        run: |
+          helm package charts/${{ steps.changed.outputs.chart }}/ -d .
+
+      - name: Update Helm repo index
+        if: steps.changed.outputs.chart != ''
+        run: |
+          helm repo index . --url https://priyanshu3103.github.io/helm-charts
+
+      - name: Commit and push index
+        if: steps.changed.outputs.chart != ''
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add *.tgz index.yaml
+          git commit -m "Release ${{ steps.changed.outputs.chart }}-${{ steps.changed.outputs.version }}"
+          git push
+
+      - name: Update helm-argocd values.yaml
+        if: steps.changed.outputs.chart != ''
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git clone https://priyanshu3103:$GH_PAT@github.com/priyanshu3103/helm-argocd.git
+          cd helm-argocd
+
+          # Update version in root-app/values.yaml
+          sed -i "s|chart: ${{ steps.changed.outputs.chart }}|chart: ${{ steps.changed.outputs.chart }}|g" root-app/values.yaml
+          sed -i "/name: ${{ steps.changed.outputs.chart }}/{n;s/version: .*/version: ${{ steps.changed.outputs.version }}/}" root-app/values.yaml
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add root-app/values.yaml
+          git commit -m "Update ${{ steps.changed.outputs.chart }} to v${{ steps.changed.outputs.version }}"
+          git push
