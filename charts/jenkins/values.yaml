@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: jenkins/jenkins
-  tag: "2.504-jdk21"
+  tag: "jenkins:lts-jdk21"
   pullPolicy: IfNotPresent
 
 serviceAccount:
