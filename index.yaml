@@ -1,9 +1,20 @@
 apiVersion: v1
 entries:
+  grafana:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-04-04T14:29:51.262937+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 6d1db2b98a1b02addd19654555cc1310e90755f0e5b308bf2d3a0ba6f6c81f49
+    name: grafana
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/grafana-0.1.0.tgz
+    version: 0.1.0
   jenkins:
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-03T07:38:06.615161378Z"
+    created: "2026-04-04T14:29:51.263394+05:30"
     description: Custom Jenkins Helm Chart with Master and Agents
     digest: 31095a71b13bb66aace76f96e1ccb236b9b3a44342cef81a351d798e04981b5b
     name: jenkins
@@ -11,4 +22,37 @@ entries:
     urls:
     - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.19.tgz
     version: 0.2.19
-generated: "2026-04-03T07:38:06.614649926Z"
+  nginx:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-04-04T14:29:51.263676+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 2521d880da2fe4657da166eb99f1c6812aa182d7480e57b1ba1364c8f40e2878
+    name: nginx
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/nginx-0.1.0.tgz
+    version: 0.1.0
+  prometheus:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-04-04T14:29:51.263951+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 26e1fd6be9ae07d7ef4997a8a613bcb2e1f8608e174fad370b87210766f96f10
+    name: prometheus
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/prometheus-0.1.0.tgz
+    version: 0.1.0
+  redis:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-04-04T14:29:51.264225+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 01723ca91cc59c610e306319fa33bc8f73e39f12f7db7d332a22c1a5b4842a9e
+    name: redis
+    type: application
+    urls:
+    - https://priyanshu3103.github.io/helm-charts/redis-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-04-04T14:29:51.260183+05:30"
