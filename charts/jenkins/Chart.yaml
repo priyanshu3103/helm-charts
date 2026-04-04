@@ -2,5 +2,5 @@ apiVersion: v2
 name: jenkins
 description: Custom Jenkins Helm Chart with Master and Agents
 type: application
-version: 0.2.23
+version: 0.2.24
 appVersion: "2.504"
