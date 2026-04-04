@@ -498,6 +498,26 @@
   .footer-right { display: flex; align-items: center; gap: 8px; }
   .footer-link { font-size: 12px; color: var(--text-muted); text-decoration: none; padding: 5px 10px; border-radius: 6px; transition: all 0.15s; font-weight: 500; }
   .footer-link:hover { background: var(--surface2); color: var(--text); }
+  .footer-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  }
+  .footer-helm-logo {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+
+  /* match your dark blue */
+  filter: 
+    invert(14%) 
+    sepia(90%) 
+    saturate(2200%) 
+    hue-rotate(225deg) 
+    brightness(65%) 
+    contrast(120%);
+  }
 
   /* TOAST */
   #toast {
