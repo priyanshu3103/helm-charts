@@ -640,7 +640,7 @@
   <div class="toolbar">
     <div class="toolbar-left">
       <span class="toolbar-title">All Charts</span>
-      <span class="toolbar-count">2</span>
+      <span class="toolbar-count">6</span>
     </div>
     <div class="toolbar-right">
       <button class="filter-btn active">⎈ Helm</button>
@@ -689,7 +689,7 @@
       </div>
     </div>
 
-    <!-- helm-argocd -->
+    <!-- ArgoCD -->
     <div class="chart-card">
       <div class="card-header">
         <div class="card-icon-wrap" style="background:#e0f2fe; padding: 4px; display: flex; align-items: center; justify-content: center;">
@@ -728,12 +728,108 @@
         <button class="copy-btn" onclick="copyText(this, 'helm install argocd priyanshu/helm-argocd')">📋 Copy</button>
       </div>
     </div>
+
+<!-- Prometheus -->
+<div class="chart-card">
+  <div class="card-header">
+    <div class="card-icon-wrap" style="background:#fef3c7; padding:4px;">
+      <img src="https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg" width="42"/>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Prometheus</div>
+      <div class="card-org">monitoring</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-desc">Monitoring and alerting toolkit for Kubernetes.</div>
+    <div class="card-tags">
+      <span class="tag tag-orange">monitoring</span>
+      <span class="tag tag-green">metrics</span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="install-snippet"><span class="cmd-kw">helm install</span> prometheus priyanshu/prometheus</div>
+    <button class="copy-btn" onclick="copyText(this, 'helm install prometheus priyanshu/prometheus')">📋 Copy</button>
+  </div>
+</div>
+
+<!-- Grafana -->
+<div class="chart-card">
+  <div class="card-header">
+    <div class="card-icon-wrap" style="background:#fef3c7; padding:4px;">
+      <img src="https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg" width="42"/>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Grafana</div>
+      <div class="card-org">observability</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-desc">Visualization dashboards for metrics and logs.</div>
+    <div class="card-tags">
+      <span class="tag tag-purple">dashboards</span>
+      <span class="tag tag-green">metrics</span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="install-snippet"><span class="cmd-kw">helm install</span> grafana priyanshu/grafana</div>
+    <button class="copy-btn" onclick="copyText(this, 'helm install grafana priyanshu/grafana')">📋 Copy</button>
+  </div>
+</div>
+
+<!-- NGINX -->
+<div class="chart-card">
+  <div class="card-header">
+    <div class="card-icon-wrap" style="background:#dcfce7; padding:4px;">
+      <img src="https://www.vectorlogo.zone/logos/nginx/nginx-icon.svg" width="42"/>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">NGINX</div>
+      <div class="card-org">web server</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-desc">High-performance web server and reverse proxy.</div>
+    <div class="card-tags">
+      <span class="tag tag-green">ingress</span>
+      <span class="tag tag-blue">proxy</span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="install-snippet"><span class="cmd-kw">helm install</span> nginx priyanshu/nginx</div>
+    <button class="copy-btn" onclick="copyText(this, 'helm install nginx priyanshu/nginx')">📋 Copy</button>
+  </div>
+</div>
+
+<!-- Redis -->
+<div class="chart-card">
+  <div class="card-header">
+    <div class="card-icon-wrap" style="background:#fee2e2; padding:4px;">
+      <img src="https://www.vectorlogo.zone/logos/redis/redis-icon.svg" width="42"/>
+    </div>
+    <div class="card-meta">
+      <div class="card-name">Redis</div>
+      <div class="card-org">database</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-desc">In-memory data store for caching and messaging.</div>
+    <div class="card-tags">
+      <span class="tag tag-red">cache</span>
+      <span class="tag tag-orange">db</span>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="install-snippet"><span class="cmd-kw">helm install</span> redis priyanshu/redis</div>
+    <button class="copy-btn" onclick="copyText(this, 'helm install redis priyanshu/redis')">📋 Copy</button>
+  </div>
+</div>
   </div>
 
   <!-- USAGE -->
   <div class="index-section">
     <div class="index-header">
-      <div class="index-header-left">📖 Usage</div>
+      <div class="index-header-left">Usage</div>
       <a class="nav-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank" style="font-size:12px;">View index.yaml →</a>
     </div>
     <div class="index-body">
