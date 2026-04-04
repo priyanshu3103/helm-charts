@@ -64,8 +64,25 @@ jobs:
           git add -A
           git commit -m "Release ${{ steps.changed.outputs.chart }}-${{ steps.changed.outputs.version }} and cleanup old versions"
           git push
-      - name: Wait for GitHub Pages
-        run: sleep 80
+      # ✅ Wait + retry until chart is available
+      - name: Wait for Helm repo to update
+        run: |
+          for i in {1..10}; do
+            echo "Checking Helm repo (attempt $i)..."
+            helm repo add testrepo https://priyanshu3103.github.io/helm-charts || true
+            helm repo update || true
+
+            if helm search repo testrepo/jenkins --versions | grep ${{ steps.changed.outputs.version }}; then
+              echo "Chart is available!"
+              exit 0
+            fi
+
+            echo "Chart not available yet, retrying in 10s..."
+            sleep 10
+          done
+
+          echo "Chart not available after retries ❌"
+          exit 1
       - name: Update helm-argocd values.yaml
         if: steps.changed.outputs.chart != ''
         env:
