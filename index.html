@@ -566,7 +566,7 @@
 
     <div class="login-attempts" id="login-attempts"></div>
 
-    <div class="login-footer-note">🔒 Secured — Unauthorized access prohibited</div>
+    <div class="login-footer-note">Secured — Unauthorized access prohibited</div>
   </div>
 </div>
 
@@ -992,7 +992,7 @@
         return;
       }
       const secs = Math.ceil((lockoutUntil - Date.now()) / 1000);
-      showError(`🔒 Account locked. Try again in ${secs}s.`);
+      showError(`Account locked. Try again in ${secs}s.`);
     }, 1000);
   }
 
