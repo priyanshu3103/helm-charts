@@ -64,7 +64,8 @@ jobs:
           git add -A
           git commit -m "Release ${{ steps.changed.outputs.chart }}-${{ steps.changed.outputs.version }} and cleanup old versions"
           git push
-
+      - name: Wait for GitHub Pages
+        run: sleep 30
       - name: Update helm-argocd values.yaml
         if: steps.changed.outputs.chart != ''
         env:
