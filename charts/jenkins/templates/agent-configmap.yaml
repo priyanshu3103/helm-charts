@@ -33,6 +33,25 @@ data:
           organizationNames: ""
           useRepositoryPermissions: false
 
+      unclassified:
+        location:
+          url: "http://{{ (index .Values.ingress.hosts 0).host }}"
+
+      credentials:
+        system:
+          domainCredentials: []
+
+      security:
+        scriptApproval:
+          approvedSignatures: []
+
+      jobs: []
+
+      tool:
+        git:
+          installations:
+            - name: Default
+              home: git
       clouds:
         - kubernetes:
             name: "kubernetes"
@@ -40,7 +59,7 @@ data:
             namespace: "{{ .Release.Namespace }}"
 
             # ✅ FIX 1: use full cluster DNS (critical)
-            jenkinsUrl: "http://{{ include "jenkins.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}"
+            # jenkinsUrl: "http://{{ include "jenkins.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}"
 
             jenkinsTunnel: "{{ include "jenkins.fullname" . }}:{{ .Values.service.agentPort }}"
 
@@ -73,23 +92,3 @@ data:
                     resourceRequestMemory: "256Mi"
                     resourceLimitCpu: "500m"
                     resourceLimitMemory: "512Mi"
-
-      unclassified:
-        location:
-          url: "http://{{ (index .Values.ingress.hosts 0).host }}"
-
-      credentials:
-        system:
-          domainCredentials: []
-
-      security:
-        scriptApproval:
-          approvedSignatures: []
-
-      jobs: []
-
-      tool:
-        git:
-          installations:
-            - name: Default
-              home: git
