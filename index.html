@@ -415,6 +415,10 @@
 
   .install-snippet .cmd-kw { color: var(--helm-blue); font-weight: 500; }
 
+  .helm-logo {
+  width: 60px;
+  filter: invert(18%) sepia(98%) saturate(3000%) hue-rotate(220deg);
+  }
   .copy-btn {
     flex-shrink: 0; padding: 7px 12px; background: var(--surface);
     border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted);
@@ -480,10 +484,9 @@
 <!-- LOGIN OVERLAY -->
 <div id="login-overlay">
   <div class="login-box">
-    <div class="login-logo" style="width: auto; height: 60px;">
-    <img src="https://helm.sh/img/helm.svg" 
-      alt="Helm Logo" style="width: 48px; height: 48px; margin-right: 12px;" />
-  </div>
+    <div class="login-logo">
+      <img src="https://helm.sh/img/helm.svg" alt="Helm" class="helm-logo" />
+    </div>
     <div class="login-title">Helm Chart Registry</div>
     <div class="login-sub">Sign in to access your repositories</div>
 
