@@ -10,6 +10,7 @@ data:
     jenkins:
       numExecutors: 0
       mode: EXCLUSIVE
+
       securityRealm:
         github:
           githubWebUri: "https://github.com"
@@ -17,6 +18,7 @@ data:
           clientID: "Ov23liaF49Qq14uOhF33"
           clientSecret: "${GITHUB_CLIENT_SECRET}"
           oauthScopes: "read:org,user:email"
+
       authorizationStrategy:
         github:
           adminUserNames: "priyanshu3103"
@@ -29,39 +31,45 @@ data:
           authenticatedUserReadPermission: true
           organizationNames: ""
           useRepositoryPermissions: false
+
       clouds:
-  - kubernetes:
-      name: "kubernetes"
-      serverUrl: "https://kubernetes.default.svc"
-      namespace: {{ .Release.Namespace | quote }}
-      jenkinsUrl: "http://{{ include "jenkins.fullname" . }}:{{ .Values.service.port }}"
-      jenkinsTunnel: "{{ include "jenkins.fullname" . }}:{{ .Values.service.agentPort }}"
-      connectTimeout: 5
-      readTimeout: 15
-      containerCapStr: "10"
-      podRetention: "never"
+        - kubernetes:
+            name: "kubernetes"
+            serverUrl: "https://kubernetes.default.svc"
+            namespace: "{{ .Release.Namespace }}"
+            jenkinsUrl: "http://{{ include "jenkins.fullname" . }}:{{ .Values.service.port }}"
+            jenkinsTunnel: "{{ include "jenkins.fullname" . }}:{{ .Values.service.agentPort }}"
+            connectTimeout: 5
+            readTimeout: 15
+            containerCapStr: "10"
+            podRetention: "never"
 
-      templates:
-        - name: "jenkins-agent"
-          namespace: {{ .Release.Namespace | quote }}
-          label: "jenkins-agent"
+            templates:
+              - name: "jenkins-agent"
+                namespace: "{{ .Release.Namespace }}"
+                label: "jenkins-agent"
 
-          containers:
-            - name: "jnlp"
-              image: "jenkins/inbound-agent:latest"
-              ttyEnabled: true
-    unclassified:
-      location:
-        url: "http://{{ (index .Values.ingress.hosts 0).host }}"
-    credentials:
-      system:
-        domainCredentials: []
-    security:
-      scriptApproval:
-        approvedSignatures: []
-    jobs: []
-    tool:
-      git:
-        installations:
-          - name: Default
-            home: git
+                containers:
+                  - name: "jnlp"
+                    image: "jenkins/inbound-agent:latest"
+                    ttyEnabled: true
+
+      unclassified:
+        location:
+          url: "http://{{ (index .Values.ingress.hosts 0).host }}"
+
+      credentials:
+        system:
+          domainCredentials: []
+
+      security:
+        scriptApproval:
+          approvedSignatures: []
+
+      jobs: []
+
+      tool:
+        git:
+          installations:
+            - name: Default
+              home: git
