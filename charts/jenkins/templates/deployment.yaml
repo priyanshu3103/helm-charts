@@ -5,37 +5,22 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "jenkins.labels" . | nindent 4 }}
+
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 5   # ✅ keep history clean
+
   selector:
     matchLabels:
       {{- include "jenkins.selectorLabels" . | nindent 6 }}
+
   template:
     metadata:
       labels:
         {{- include "jenkins.labels" . | nindent 8 }}
+
     spec:
       serviceAccountName: {{ include "jenkins.serviceAccountName" . }}
-
-      initContainers:
-        - name: install-plugins
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command:
-            - sh
-            - -c
-            - |
-              jenkins-plugin-cli \
-              --plugin-download-directory=/usr/share/jenkins/ref/plugins \
-              --plugins \
-              kubernetes:4203.v1dd44f5b_1cf9 \
-              workflow-aggregator \
-              git \
-              configuration-as-code \
-              job-dsl \
-              github-oauth
-          volumeMounts:
-            - name: plugins
-              mountPath: /usr/share/jenkins/ref/plugins
 
       containers:
         - name: jenkins
@@ -64,7 +49,7 @@ spec:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 120
+            initialDelaySeconds: 60   # ✅ faster
             timeoutSeconds: 10
             periodSeconds: 30
 
@@ -72,7 +57,7 @@ spec:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 120
+            initialDelaySeconds: 30   # ✅ faster
             timeoutSeconds: 5
             periodSeconds: 10
 
@@ -82,8 +67,7 @@ spec:
           volumeMounts:
             - name: casc-config
               mountPath: /var/jenkins_home/casc_configs
-            - name: plugins
-              mountPath: /usr/share/jenkins/ref/plugins
+
             - name: jenkins-home
               mountPath: /var/jenkins_home
 
@@ -92,8 +76,6 @@ spec:
           configMap:
             name: {{ include "jenkins.fullname" . }}-casc
 
-        - name: plugins
-          emptyDir: {}
-
         - name: jenkins-home
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: {{ include "jenkins.fullname" . }}-pvc   # ✅ persistent storage
