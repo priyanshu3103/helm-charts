@@ -3,23 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>priyanshu / helm-charts</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<title>Priyanshu's Helm Charts</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0a0c10;
-    --surface: #111318;
-    --border: #1e2229;
-    --border-bright: #2e3440;
-    --text: #cdd6f4;
-    --muted: #6c7086;
-    --accent: #89dceb;
-    --accent2: #a6e3a1;
-    --accent3: #f38ba8;
-    --yellow: #f9e2af;
-    --purple: #cba6f7;
-    --mono: 'JetBrains Mono', monospace;
-    --display: 'Syne', sans-serif;
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --surface2: #f1f3f8;
+    --border: #e2e6ef;
+    --text: #1a1f36;
+    --text-muted: #697386;
+    --text-light: #9aa5b9;
+    --helm-blue: #0f62fe;
+    --helm-blue-light: #e8f0fe;
+    --helm-blue-dark: #0043ce;
+    --success: #0e8a16;
+    --success-bg: #e6f4ea;
+    --warning: #b45309;
+    --warning-bg: #fef3c7;
+    --purple: #7c3aed;
+    --purple-bg: #ede9fe;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --radius: 8px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,367 +38,654 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--mono);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
     min-height: 100vh;
-    overflow-x: hidden;
   }
 
-  /* grid bg */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(137,220,235,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(137,220,235,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
   }
 
-  /* glow blob */
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 400px;
-    background: radial-gradient(ellipse, rgba(137,220,235,0.07) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 860px;
+  .nav-inner {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 24px 80px;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
   }
 
-  /* HEADER */
-  header {
-    margin-bottom: 56px;
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
   }
 
-  .badge {
-    display: inline-flex;
+  .nav-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--helm-blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .nav-title {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-title span {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  .nav-link:hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  .nav-link.active {
+    background: var(--helm-blue-light);
+    color: var(--helm-blue);
+  }
+
+  .nav-gh {
+    display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    color: var(--accent);
-    border: 1px solid rgba(137,220,235,0.25);
-    border-radius: 4px;
-    padding: 4px 10px;
-    margin-bottom: 20px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  h1 {
-    font-family: var(--display);
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-bottom: 12px;
-  }
-
-  h1 span { color: var(--accent); }
-
-  .subtitle {
     font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.15s;
   }
 
-  /* QUICK ADD BLOCK */
-  .quick-add {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 24px;
-    margin-bottom: 48px;
+  .nav-gh:hover {
+    border-color: var(--text-muted);
+    color: var(--text);
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+    color: white;
+    padding: 48px 24px;
     position: relative;
     overflow: hidden;
   }
 
-  .quick-add::before {
+  .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
   }
 
-  .quick-add-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    margin-bottom: 12px;
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
 
-  .cmd-row {
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    opacity: 0.8;
+    max-width: 500px;
+    margin-bottom: 28px;
+  }
+
+  .hero-cmd {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 0;
+    max-width: 520px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
   }
 
-  .cmd {
-    flex: 1;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    background: rgba(137,220,235,0.05);
-    border: 1px solid rgba(137,220,235,0.15);
-    border-radius: 6px;
+  .hero-cmd-prompt {
     padding: 10px 14px;
-    min-width: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .hero-cmd-text {
+    flex: 1;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .cmd .prompt { color: var(--muted); margin-right: 6px; }
-
-  .copy-btn {
-    flex-shrink: 0;
-    background: rgba(137,220,235,0.08);
-    border: 1px solid rgba(137,220,235,0.2);
-    color: var(--accent);
+  .hero-cmd-copy {
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
     font-family: var(--mono);
     font-size: 11px;
-    letter-spacing: 0.06em;
-    padding: 8px 16px;
-    border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
+    flex-shrink: 0;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-cmd-copy:hover {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+  }
+
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hero-stat-num {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    opacity: 0.6;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .copy-btn:hover {
-    background: rgba(137,220,235,0.15);
-    border-color: rgba(137,220,235,0.4);
+  /* MAIN */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
   }
 
-  .copy-btn.copied {
-    color: var(--accent2);
-    border-color: rgba(166,227,161,0.4);
-    background: rgba(166,227,161,0.08);
-  }
-
-  /* SECTION LABEL */
-  .section-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--muted);
-    margin-bottom: 16px;
+  /* TOOLBAR */
+  .toolbar {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toolbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .toolbar-count {
+    background: var(--helm-blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-family: var(--mono);
+  }
+
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--helm-blue);
+    color: var(--helm-blue);
+    background: var(--helm-blue-light);
+  }
+
+  .filter-btn.active {
+    border-color: var(--helm-blue);
+    color: var(--helm-blue);
+    background: var(--helm-blue-light);
   }
 
   /* CHART CARDS */
   .charts-grid {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 16px;
-    margin-bottom: 48px;
   }
 
   .chart-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 24px;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: default;
-    position: relative;
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
   }
 
   .chart-card:hover {
-    border-color: var(--border-bright);
+    border-color: #c7d2fe;
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 
-  .chart-card .stripe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    border-radius: 10px 0 0 10px;
-  }
-
-  .card-top {
+  .card-header {
+    padding: 20px 20px 16px;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    gap: 12px;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .card-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+  .card-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
     flex-shrink: 0;
+    position: relative;
   }
 
-  .chart-name {
-    font-family: var(--display);
-    font-size: 17px;
+  .card-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-name {
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .chart-desc {
+  .card-org {
     font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-    line-height: 1.5;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
-  .tags {
+  .card-verified {
+    color: var(--helm-blue);
+    font-size: 13px;
+  }
+
+  .card-body {
+    padding: 16px 20px;
+    flex: 1;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .tag {
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 500;
     padding: 3px 8px;
     border-radius: 4px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
   }
 
-  .tag-version {
-    background: rgba(203,166,247,0.1);
-    color: var(--purple);
-    border: 1px solid rgba(203,166,247,0.2);
+  .tag-blue { background: var(--helm-blue-light); color: var(--helm-blue); }
+  .tag-purple { background: var(--purple-bg); color: var(--purple); }
+  .tag-green { background: var(--success-bg); color: var(--success); }
+  .tag-orange { background: var(--warning-bg); color: var(--warning); }
+  .tag-red { background: var(--red-bg); color: var(--red); }
+
+  .card-info-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
   }
 
-  .tag-app {
-    background: rgba(249,226,175,0.1);
-    color: var(--yellow);
-    border: 1px solid rgba(249,226,175,0.2);
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
-  .tag-helm {
-    background: rgba(137,220,235,0.1);
-    color: var(--accent);
-    border: 1px solid rgba(137,220,235,0.15);
+  .info-icon {
+    font-size: 13px;
+    opacity: 0.6;
   }
 
-  .install-row {
+  .card-footer {
+    padding: 12px 20px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .install-snippet {
+    flex: 1;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .install-snippet .cmd-kw { color: var(--helm-blue); font-weight: 500; }
+
+  .copy-btn {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-family: var(--mono);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--helm-blue);
+    color: var(--helm-blue);
+    background: var(--helm-blue-light);
+  }
+
+  .copy-btn.copied {
+    border-color: var(--success);
+    color: var(--success);
+    background: var(--success-bg);
+  }
+
+  /* INDEX YAML SECTION */
+  .index-section {
+    margin-top: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .index-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+  }
+
+  .index-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .index-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .index-cmd-row {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  .install-cmd {
+  .index-cmd-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    font-weight: 600;
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .index-cmd-text {
     flex: 1;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text);
-    background: rgba(255,255,255,0.03);
+    background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 8px 12px;
-    min-width: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
   }
 
-  .install-cmd .kw { color: var(--accent2); }
-  .install-cmd .arg { color: var(--yellow); }
+  .index-cmd-text .kw { color: var(--helm-blue); }
+  .index-cmd-text .str { color: var(--success); }
 
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
-    padding-top: 28px;
+    background: var(--surface);
+    margin-top: 48px;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 12px;
   }
 
   .footer-left {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
-  .footer-left a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
+  .footer-left a { color: var(--helm-blue); text-decoration: none; }
   .footer-left a:hover { text-decoration: underline; }
 
   .footer-right {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 8px;
   }
 
   .footer-link {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 12px;
+    color: var(--text-muted);
     text-decoration: none;
-    padding: 6px 12px;
-    border: 1px solid var(--border);
+    padding: 5px 10px;
     border-radius: 6px;
     transition: all 0.15s;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    font-weight: 500;
   }
 
   .footer-link:hover {
+    background: var(--surface2);
     color: var(--text);
-    border-color: var(--border-bright);
   }
 
-  /* toast */
+  /* TOAST */
   #toast {
     position: fixed;
-    bottom: 24px; right: 24px;
-    background: var(--surface);
-    border: 1px solid rgba(166,227,161,0.35);
-    color: var(--accent2);
-    font-family: var(--mono);
+    bottom: 24px;
+    right: 24px;
+    background: var(--text);
+    color: white;
     font-size: 12px;
-    padding: 10px 18px;
+    font-family: var(--mono);
+    padding: 10px 16px;
     border-radius: 8px;
+    box-shadow: var(--shadow-lg);
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
     transition: all 0.2s;
     pointer-events: none;
-    z-index: 100;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   #toast.show {
@@ -395,134 +693,286 @@
     transform: translateY(0);
   }
 
-  /* fade-in on load */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: fadeUp 0.5s forwards;
+  .separator {
+    color: var(--border);
+    margin: 0 4px;
   }
 
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 24px; }
+    .hero-stats { gap: 20px; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
   }
-
-  .fade-in:nth-child(1) { animation-delay: 0.05s; }
-  .fade-in:nth-child(2) { animation-delay: 0.12s; }
-  .fade-in:nth-child(3) { animation-delay: 0.19s; }
-  .fade-in:nth-child(4) { animation-delay: 0.26s; }
-  .fade-in:nth-child(5) { animation-delay: 0.33s; }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <header class="fade-in">
-    <div class="badge"><span class="badge-dot"></span>Helm Repository · Live</div>
-    <h1>priyanshu / <span>helm-charts</span></h1>
-    <p class="subtitle">Personal Helm chart repository — GitOps-ready charts for Kubernetes infrastructure.</p>
-  </header>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo">⎈</div>
+      <span class="nav-title">priyanshu3103 <span>/ helm-charts</span></span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#">Charts</a>
+      <a class="nav-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a>
+      <a class="nav-link" href="https://github.com/priyanshu3103/helm-charts" target="_blank">Releases</a>
+    </div>
+    <a class="nav-gh" href="https://github.com/priyanshu3103/helm-charts" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
 
-  <div class="quick-add fade-in">
-    <div class="quick-add-label">Add repository</div>
-    <div class="cmd-row">
-      <div class="cmd">
-        <span class="prompt">$</span>helm repo add priyanshu https://priyanshu3103.github.io/helm-charts
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="hero-dot"></span>
+      Repository · Live on GitHub Pages
+    </div>
+    <h1>Helm Chart Repository</h1>
+    <p>Production-ready Helm charts for Kubernetes infrastructure and DevOps tooling.</p>
+
+    <div class="hero-cmd">
+      <span class="hero-cmd-prompt">$</span>
+      <span class="hero-cmd-text" id="addCmd">helm repo add priyanshu https://priyanshu3103.github.io/helm-charts && helm repo update</span>
+      <button class="hero-cmd-copy" onclick="copyHero()">Copy</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">2</span>
+        <span class="hero-stat-label">Charts</span>
       </div>
-      <button class="copy-btn" onclick="copyCmd(this, 'helm repo add priyanshu https://priyanshu3103.github.io/helm-charts')">Copy</button>
+      <div class="hero-stat">
+        <span class="hero-stat-num">GitOps</span>
+        <span class="hero-stat-label">Ready</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">k3d</span>
+        <span class="hero-stat-label">Tested On</span>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="section-label fade-in">Charts</div>
+<!-- MAIN -->
+<div class="main">
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="toolbar-title">All Charts</span>
+      <span class="toolbar-count">2</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="filter-btn active">⎈ Helm</button>
+      <button class="filter-btn">All Types</button>
+    </div>
+  </div>
 
   <div class="charts-grid">
 
-    <!-- ArgoCD chart -->
-    <div class="chart-card fade-in">
-      <div class="stripe" style="background: linear-gradient(180deg, #89dceb, #cba6f7);"></div>
-      <div class="card-top">
-        <div>
-          <div class="card-icon" style="background: rgba(137,220,235,0.1);">⎈</div>
+    <!-- Jenkins Chart -->
+    <div class="chart-card">
+      <div class="card-header">
+        <div class="card-icon-wrap" style="background: #fef3c7;">
+          <span style="font-size:26px;">⚙️</span>
         </div>
-        <div style="flex:1; padding-left: 14px;">
-          <div class="chart-name">helm-argocd</div>
-          <div class="chart-desc">ArgoCD with GitHub SSO via Dex, multi-cluster support, App of Apps pattern, and Nginx Ingress configuration.</div>
+        <div class="card-meta">
+          <div class="card-name">jenkins</div>
+          <div class="card-org">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+            priyanshu3103
+            <span class="card-verified">✓</span>
+          </div>
         </div>
       </div>
-      <div class="tags">
-        <span class="tag tag-version">chart 0.2.4</span>
-        <span class="tag tag-app">app 1.16.0</span>
-        <span class="tag tag-helm">argocd</span>
-        <span class="tag tag-helm">gitops</span>
-      </div>
-      <div class="install-row">
-        <div class="install-cmd">
-          <span class="kw">helm install</span> argocd <span class="arg">priyanshu/helm-argocd</span>
+      <div class="card-body">
+        <div class="card-desc">
+          Custom Jenkins Helm chart with master and dynamic Kubernetes agent support. Includes JCasC, GitHub OAuth SSO, and automated plugin installation.
         </div>
-        <button class="copy-btn" onclick="copyCmd(this, 'helm install argocd priyanshu/helm-argocd')">Copy</button>
+        <div class="card-tags">
+          <span class="tag tag-orange">ci/cd</span>
+          <span class="tag tag-blue">kubernetes-agent</span>
+          <span class="tag tag-purple">github-sso</span>
+          <span class="tag tag-green">casc</span>
+        </div>
+        <div class="card-info-row">
+          <div class="info-item">
+            <span class="info-icon">📦</span>
+            <span>Chart 0.2.14</span>
+          </div>
+          <span class="separator">·</span>
+          <div class="info-item">
+            <span class="info-icon">🚀</span>
+            <span>App 2.504</span>
+          </div>
+          <span class="separator">·</span>
+          <div class="info-item">
+            <span class="info-icon">⎈</span>
+            <span>v2</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="install-snippet">
+          <span class="cmd-kw">helm install</span> jenkins priyanshu/jenkins
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm install jenkins priyanshu/jenkins')">
+          📋 Copy
+        </button>
       </div>
     </div>
 
-    <!-- Jenkins chart -->
-    <div class="chart-card fade-in">
-      <div class="stripe" style="background: linear-gradient(180deg, #f9e2af, #f38ba8);"></div>
-      <div class="card-top">
-        <div>
-          <div class="card-icon" style="background: rgba(249,226,175,0.1);">⚙</div>
+    <!-- helm-argocd Chart -->
+    <div class="chart-card">
+      <div class="card-header">
+        <div class="card-icon-wrap" style="background: #e8f0fe;">
+          <span style="font-size:26px;">⎈</span>
         </div>
-        <div style="flex:1; padding-left: 14px;">
-          <div class="chart-name">jenkins</div>
-          <div class="chart-desc">Custom Jenkins Helm chart with master and agent setup. CI/CD pipelines with Docker image auto-tagging.</div>
+        <div class="card-meta">
+          <div class="card-name">helm-argocd</div>
+          <div class="card-org">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+            priyanshu3103
+            <span class="card-verified">✓</span>
+          </div>
         </div>
       </div>
-      <div class="tags">
-        <span class="tag tag-version">chart 0.2.2</span>
-        <span class="tag tag-app">app 2.504</span>
-        <span class="tag tag-helm">jenkins</span>
-        <span class="tag tag-helm">ci/cd</span>
-      </div>
-      <div class="install-row">
-        <div class="install-cmd">
-          <span class="kw">helm install</span> jenkins <span class="arg">priyanshu/jenkins</span>
+      <div class="card-body">
+        <div class="card-desc">
+          Sample application Helm chart for ArgoCD GitOps deployment. Includes Deployment, Service, Ingress, and ServiceAccount with sensible defaults.
         </div>
-        <button class="copy-btn" onclick="copyCmd(this, 'helm install jenkins priyanshu/jenkins')">Copy</button>
+        <div class="card-tags">
+          <span class="tag tag-blue">gitops</span>
+          <span class="tag tag-purple">argocd</span>
+          <span class="tag tag-green">nginx</span>
+          <span class="tag tag-orange">ingress</span>
+        </div>
+        <div class="card-info-row">
+          <div class="info-item">
+            <span class="info-icon">📦</span>
+            <span>Chart 0.2.4</span>
+          </div>
+          <span class="separator">·</span>
+          <div class="info-item">
+            <span class="info-icon">🚀</span>
+            <span>App 1.16.0</span>
+          </div>
+          <span class="separator">·</span>
+          <div class="info-item">
+            <span class="info-icon">⎈</span>
+            <span>v2</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="install-snippet">
+          <span class="cmd-kw">helm install</span> myapp priyanshu/helm-argocd
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm install myapp priyanshu/helm-argocd')">
+          📋 Copy
+        </button>
       </div>
     </div>
 
   </div>
 
-  <footer class="fade-in">
-    <div class="footer-left">
-      Hosted on <a href="https://github.com/priyanshu3103/helm-charts" target="_blank">GitHub Pages</a> ·
-      Served via <code>index.yaml</code>
+  <!-- USAGE SECTION -->
+  <div class="index-section">
+    <div class="index-header">
+      <div class="index-header-left">
+        <span>📖</span>
+        Usage
+      </div>
+      <a class="nav-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank" style="font-size:12px;">View index.yaml →</a>
     </div>
-    <div class="footer-right">
-      <a class="footer-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a>
-      <a class="footer-link" href="https://github.com/priyanshu3103/helm-charts" target="_blank">GitHub</a>
+    <div class="index-body">
+      <div class="index-cmd-row">
+        <span class="index-cmd-label">Add Repo</span>
+        <div class="index-cmd-text">
+          <span class="kw">helm repo add</span> priyanshu <span class="str">https://priyanshu3103.github.io/helm-charts</span>
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm repo add priyanshu https://priyanshu3103.github.io/helm-charts')">📋</button>
+      </div>
+      <div class="index-cmd-row">
+        <span class="index-cmd-label">Update</span>
+        <div class="index-cmd-text">
+          <span class="kw">helm repo update</span>
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm repo update')">📋</button>
+      </div>
+      <div class="index-cmd-row">
+        <span class="index-cmd-label">Search</span>
+        <div class="index-cmd-text">
+          <span class="kw">helm search repo</span> priyanshu
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm search repo priyanshu')">📋</button>
+      </div>
+      <div class="index-cmd-row">
+        <span class="index-cmd-label">Install</span>
+        <div class="index-cmd-text">
+          <span class="kw">helm install</span> jenkins priyanshu/jenkins <span class="kw">--namespace</span> devops-tools <span class="kw">--create-namespace</span>
+        </div>
+        <button class="copy-btn" onclick="copyText(this, 'helm install jenkins priyanshu/jenkins --namespace devops-tools --create-namespace')">📋</button>
+      </div>
     </div>
-  </footer>
+  </div>
 
 </div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a>
+      &nbsp;·&nbsp;
+      Served via <a href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a>
+      &nbsp;·&nbsp;
+      Built with ⎈ Helm
+    </div>
+    <div class="footer-right">
+      <a class="footer-link" href="https://helm.sh/docs" target="_blank">Helm Docs</a>
+      <a class="footer-link" href="https://github.com/priyanshu3103/helm-charts" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
 
 <div id="toast">✓ Copied to clipboard</div>
 
 <script>
-function copyCmd(btn, text) {
+function copyText(btn, text) {
   navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = 'Copied!';
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ Copied';
     btn.classList.add('copied');
     showToast();
     setTimeout(() => {
-      btn.textContent = orig;
+      btn.innerHTML = orig;
       btn.classList.remove('copied');
     }, 2000);
+  });
+}
+
+function copyHero() {
+  const text = document.getElementById('addCmd').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.hero-cmd-copy');
+    btn.textContent = '✓ Copied!';
+    showToast();
+    setTimeout(() => btn.textContent = 'Copy', 2000);
   });
 }
 
 function showToast() {
   const t = document.getElementById('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 </script>
 </body>
