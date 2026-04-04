@@ -44,670 +44,482 @@
     min-height: 100vh;
   }
 
-  /* NAV */
-  nav {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .nav-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 24px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .nav-logo {
-    width: 32px;
-    height: 32px;
-    background: var(--helm-blue);
-    border-radius: 6px;
+  /* LOGIN OVERLAY */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 16px;
-    flex-shrink: 0;
+    padding: 24px;
   }
 
-  .nav-title {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  .login-box {
+    background: white;
+    border-radius: 14px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.25);
+    animation: loginSlide 0.4s cubic-bezier(0.16,1,0.3,1);
   }
 
-  .nav-title span {
-    color: var(--text-muted);
-    font-weight: 400;
+  @keyframes loginSlide {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  .login-logo {
+    width: 48px; height: 48px;
+    background: var(--helm-blue);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px; color: white;
   }
+
+  .login-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+
+  .login-field { margin-bottom: 16px; }
+
+  .login-label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--text); margin-bottom: 6px;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
+
+  .login-input {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: var(--sans); color: var(--text);
+    background: var(--surface2); outline: none; transition: all 0.15s;
+  }
+
+  .login-input:focus {
+    border-color: var(--helm-blue); background: white;
+    box-shadow: 0 0 0 3px rgba(15,98,254,0.1);
+  }
+
+  .login-input.error { border-color: var(--red); background: var(--red-bg); }
+
+  .login-error {
+    display: none; font-size: 12px; color: var(--red);
+    margin-top: 6px; padding: 8px 12px;
+    background: var(--red-bg); border-radius: 6px;
+    border-left: 3px solid var(--red);
+  }
+
+  .login-error.show { display: block; }
+
+  .login-btn {
+    width: 100%; padding: 12px;
+    background: var(--helm-blue); color: white;
+    border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; font-family: var(--sans);
+    cursor: pointer; transition: all 0.15s; margin-top: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+
+  .login-btn:hover { background: var(--helm-blue-dark); }
+  .login-btn.loading { background: var(--text-light); cursor: not-allowed; pointer-events: none; }
+
+  .login-attempts { margin-top: 8px; font-size: 11px; color: var(--text-muted); text-align: center; }
+
+  .login-footer-note {
+    margin-top: 20px; font-size: 11px; color: var(--text-light);
+    text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+
+  /* LOGOUT MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9000; display: none;
+    align-items: center; justify-content: center;
+    padding: 24px; backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-box {
+    background: white; border-radius: 12px; padding: 28px;
+    width: 100%; max-width: 360px;
+    box-shadow: var(--shadow-lg);
+    animation: loginSlide 0.25s ease;
+  }
+
+  .modal-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--red-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 16px;
+  }
+
+  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+  .modal-actions { display: flex; gap: 10px; }
+
+  .modal-cancel {
+    flex: 1; padding: 10px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--surface); color: var(--text);
+    font-size: 13px; font-weight: 600; font-family: var(--sans);
+    cursor: pointer; transition: all 0.15s;
+  }
+
+  .modal-cancel:hover { background: var(--surface2); }
+
+  .modal-confirm {
+    flex: 1; padding: 10px; border: none; border-radius: 8px;
+    background: var(--red); color: white;
+    font-size: 13px; font-weight: 600; font-family: var(--sans);
+    cursor: pointer; transition: all 0.15s;
+  }
+
+  .modal-confirm:hover { background: #b91c1c; }
+
+  /* SESSION BANNER */
+  .session-banner {
+    background: var(--success-bg);
+    border-bottom: 1px solid rgba(14,138,22,0.2);
+    padding: 8px 24px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 12px; color: var(--success); font-weight: 500;
+  }
+
+  .session-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--success); animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(0.8); }
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);
+  }
+
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    height: 56px; display: flex; align-items: center;
+    justify-content: space-between; gap: 24px;
+  }
+
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--text);
+  }
+
+  .nav-logo {
+    width: 32px; height: 32px; background: var(--helm-blue);
+    border-radius: 6px; display: flex; align-items: center;
+    justify-content: center; color: white; font-size: 16px; flex-shrink: 0;
+  }
+
+  .nav-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .nav-title span { color: var(--text-muted); font-weight: 400; }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; }
 
   .nav-link {
-    font-size: 13px;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: all 0.15s;
-    font-weight: 500;
+    font-size: 13px; color: var(--text-muted); text-decoration: none;
+    padding: 6px 12px; border-radius: 6px; transition: all 0.15s; font-weight: 500;
   }
 
-  .nav-link:hover {
-    background: var(--surface2);
-    color: var(--text);
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-link.active { background: var(--helm-blue-light); color: var(--helm-blue); }
+
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+
+  .nav-user { display: flex; align-items: center; gap: 8px; }
+
+  .nav-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--helm-blue); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
   }
 
-  .nav-link.active {
-    background: var(--helm-blue-light);
-    color: var(--helm-blue);
-  }
+  .nav-username { font-size: 13px; font-weight: 600; color: var(--text); }
 
   .nav-gh {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px; font-size: 13px;
+    color: var(--text-muted); text-decoration: none;
+    padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 6px; font-weight: 500; transition: all 0.15s;
   }
 
-  .nav-gh:hover {
-    border-color: var(--text-muted);
-    color: var(--text);
+  .nav-gh:hover { border-color: var(--text-muted); color: var(--text); }
+
+  .logout-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--red);
+    background: var(--red-bg); border: 1px solid rgba(220,38,38,0.2);
+    border-radius: 6px; padding: 6px 12px; font-weight: 500;
+    cursor: pointer; font-family: var(--sans); transition: all 0.15s;
   }
+
+  .logout-btn:hover { background: var(--red); color: white; border-color: var(--red); }
 
   /* HERO */
   .hero {
     background: linear-gradient(135deg, #0f62fe 0%, #0043ce 100%);
-    color: white;
-    padding: 48px 24px;
-    position: relative;
-    overflow: hidden;
+    color: white; padding: 48px 24px;
+    position: relative; overflow: hidden;
   }
 
   .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
                       radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
   }
 
-  .hero-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
 
   .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 100px;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    margin-bottom: 16px;
-    backdrop-filter: blur(4px);
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px; padding: 4px 12px;
+    font-size: 12px; font-weight: 500; margin-bottom: 16px; backdrop-filter: blur(4px);
   }
 
   .hero-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 6px #4ade80;
-    animation: pulse 2s infinite;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: pulse 2s infinite;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.85); }
-  }
-
-  .hero h1 {
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 10px;
-  }
-
-  .hero p {
-    font-size: 15px;
-    opacity: 0.8;
-    max-width: 500px;
-    margin-bottom: 28px;
-  }
+  .hero h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+  .hero p { font-size: 15px; opacity: 0.8; max-width: 500px; margin-bottom: 28px; }
 
   .hero-cmd {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    max-width: 520px;
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
+    display: flex; align-items: center; max-width: 520px;
+    background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; overflow: hidden; backdrop-filter: blur(8px);
   }
 
   .hero-cmd-prompt {
-    padding: 10px 14px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    flex-shrink: 0;
-    user-select: none;
+    padding: 10px 14px; font-family: var(--mono); font-size: 12px;
+    color: rgba(255,255,255,0.4); border-right: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0; user-select: none;
   }
 
   .hero-cmd-text {
-    flex: 1;
-    padding: 10px 14px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: rgba(255,255,255,0.9);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex: 1; padding: 10px 14px; font-family: var(--mono); font-size: 12px;
+    color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
   .hero-cmd-copy {
-    padding: 10px 14px;
-    background: rgba(255,255,255,0.1);
-    border: none;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.7);
-    font-family: var(--mono);
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.15s;
-    flex-shrink: 0;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    padding: 10px 14px; background: rgba(255,255,255,0.1);
+    border: none; border-left: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 11px;
+    cursor: pointer; transition: all 0.15s; flex-shrink: 0; font-weight: 500;
   }
 
-  .hero-cmd-copy:hover {
-    background: rgba(255,255,255,0.2);
-    color: white;
-  }
+  .hero-cmd-copy:hover { background: rgba(255,255,255,0.2); color: white; }
 
-  .hero-stats {
-    display: flex;
-    gap: 32px;
-    margin-top: 28px;
-  }
-
-  .hero-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .hero-stat-num {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .hero-stat-label {
-    font-size: 12px;
-    opacity: 0.6;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
+  .hero-stats { display: flex; gap: 32px; margin-top: 28px; }
+  .hero-stat { display: flex; flex-direction: column; gap: 2px; }
+  .hero-stat-num { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .hero-stat-label { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.06em; }
 
   /* MAIN */
-  .main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 32px 24px 64px;
-  }
+  .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
 
-  /* TOOLBAR */
   .toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 16px;
-    flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; gap: 16px; flex-wrap: wrap;
   }
 
-  .toolbar-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .toolbar-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
+  .toolbar-left { display: flex; align-items: center; gap: 8px; }
+  .toolbar-title { font-size: 13px; font-weight: 600; color: var(--text); }
   .toolbar-count {
-    background: var(--helm-blue);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 100px;
-    font-family: var(--mono);
+    background: var(--helm-blue); color: white; font-size: 11px;
+    font-weight: 600; padding: 2px 7px; border-radius: 100px; font-family: var(--mono);
   }
 
-  .toolbar-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .toolbar-right { display: flex; align-items: center; gap: 8px; }
 
   .filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-size: 12px;
-    font-family: var(--sans);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 12px; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--surface);
+    color: var(--text-muted); font-size: 12px; font-family: var(--sans);
+    font-weight: 500; cursor: pointer; transition: all 0.15s;
   }
 
-  .filter-btn:hover {
-    border-color: var(--helm-blue);
-    color: var(--helm-blue);
-    background: var(--helm-blue-light);
-  }
-
-  .filter-btn.active {
-    border-color: var(--helm-blue);
-    color: var(--helm-blue);
-    background: var(--helm-blue-light);
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--helm-blue); color: var(--helm-blue); background: var(--helm-blue-light);
   }
 
   /* CHART CARDS */
-  .charts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 16px;
-  }
+  .charts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
 
   .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-    transition: all 0.2s;
-    display: flex;
-    flex-direction: column;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden;
+    transition: all 0.2s; display: flex; flex-direction: column;
   }
 
-  .chart-card:hover {
-    border-color: #c7d2fe;
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
-  }
+  .chart-card:hover { border-color: #c7d2fe; box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 
   .card-header {
-    padding: 20px 20px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    border-bottom: 1px solid var(--border);
+    padding: 20px 20px 16px; display: flex; align-items: flex-start;
+    gap: 14px; border-bottom: 1px solid var(--border);
   }
 
   .card-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    position: relative;
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
   }
 
-  .card-meta {
-    flex: 1;
-    min-width: 0;
-  }
+  .card-meta { flex: 1; min-width: 0; }
+  .card-name { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 3px; }
+  .card-org { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+  .card-verified { color: var(--helm-blue); font-size: 13px; }
 
-  .card-name {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    margin-bottom: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .card-org {
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .card-verified {
-    color: var(--helm-blue);
-    font-size: 13px;
-  }
-
-  .card-body {
-    padding: 16px 20px;
-    flex: 1;
-  }
+  .card-body { padding: 16px 20px; flex: 1; }
 
   .card-desc {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 14px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 
-  .tag {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-family: var(--mono);
-    letter-spacing: 0.02em;
-  }
-
+  .tag { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; font-family: var(--mono); }
   .tag-blue { background: var(--helm-blue-light); color: var(--helm-blue); }
   .tag-purple { background: var(--purple-bg); color: var(--purple); }
   .tag-green { background: var(--success-bg); color: var(--success); }
   .tag-orange { background: var(--warning-bg); color: var(--warning); }
-  .tag-red { background: var(--red-bg); color: var(--red); }
 
-  .card-info-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .info-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .info-icon {
-    font-size: 13px;
-    opacity: 0.6;
-  }
+  .card-info-row { display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-muted); }
 
   .card-footer {
-    padding: 12px 20px;
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    padding: 12px 20px; background: var(--surface2); border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
 
   .install-snippet {
-    flex: 1;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
+    flex: 1; font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 7px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
   }
 
   .install-snippet .cmd-kw { color: var(--helm-blue); font-weight: 500; }
 
   .copy-btn {
-    flex-shrink: 0;
-    padding: 7px 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-muted);
-    font-size: 11px;
-    font-family: var(--mono);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.03em;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    flex-shrink: 0; padding: 7px 12px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted);
+    font-size: 11px; font-family: var(--mono); font-weight: 500; cursor: pointer;
+    transition: all 0.15s; display: flex; align-items: center; gap: 5px;
   }
 
-  .copy-btn:hover {
-    border-color: var(--helm-blue);
-    color: var(--helm-blue);
-    background: var(--helm-blue-light);
-  }
+  .copy-btn:hover { border-color: var(--helm-blue); color: var(--helm-blue); background: var(--helm-blue-light); }
+  .copy-btn.copied { border-color: var(--success); color: var(--success); background: var(--success-bg); }
 
-  .copy-btn.copied {
-    border-color: var(--success);
-    color: var(--success);
-    background: var(--success-bg);
-  }
-
-  /* INDEX YAML SECTION */
+  /* USAGE SECTION */
   .index-section {
-    margin-top: 32px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    margin-top: 32px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm);
   }
 
   .index-header {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface2);
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; background: var(--surface2);
   }
 
-  .index-header-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .index-body {
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .index-cmd-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .index-cmd-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-light);
-    font-weight: 600;
-    width: 80px;
-    flex-shrink: 0;
-  }
-
-  .index-cmd-text {
-    flex: 1;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text);
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
-  }
-
+  .index-header-left { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text); }
+  .index-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .index-cmd-row { display: flex; align-items: center; gap: 10px; }
+  .index-cmd-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); font-weight: 600; width: 80px; flex-shrink: 0; }
+  .index-cmd-text { flex: 1; font-family: var(--mono); font-size: 12px; color: var(--text); background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .index-cmd-text .kw { color: var(--helm-blue); }
   .index-cmd-text .str { color: var(--success); }
 
   /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    margin-top: 48px;
-  }
+  footer { border-top: 1px solid var(--border); background: var(--surface); margin-top: 48px; }
 
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .footer-left {
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
+  .footer-inner { max-width: 1100px; margin: 0 auto; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .footer-left { font-size: 12px; color: var(--text-muted); }
   .footer-left a { color: var(--helm-blue); text-decoration: none; }
   .footer-left a:hover { text-decoration: underline; }
-
-  .footer-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .footer-link {
-    font-size: 12px;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    transition: all 0.15s;
-    font-weight: 500;
-  }
-
-  .footer-link:hover {
-    background: var(--surface2);
-    color: var(--text);
-  }
+  .footer-right { display: flex; align-items: center; gap: 8px; }
+  .footer-link { font-size: 12px; color: var(--text-muted); text-decoration: none; padding: 5px 10px; border-radius: 6px; transition: all 0.15s; font-weight: 500; }
+  .footer-link:hover { background: var(--surface2); color: var(--text); }
 
   /* TOAST */
   #toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--text);
-    color: white;
-    font-size: 12px;
-    font-family: var(--mono);
-    padding: 10px 16px;
-    border-radius: 8px;
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.2s;
-    pointer-events: none;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    position: fixed; bottom: 24px; right: 24px; background: var(--text); color: white;
+    font-size: 12px; font-family: var(--mono); padding: 10px 16px; border-radius: 8px;
+    box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(8px);
+    transition: all 0.2s; pointer-events: none; z-index: 10000;
   }
 
-  #toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+  .separator { color: var(--border); margin: 0 4px; }
 
-  .separator {
-    color: var(--border);
-    margin: 0 4px;
-  }
-
-  /* Responsive */
   @media (max-width: 600px) {
     .hero h1 { font-size: 24px; }
     .hero-stats { gap: 20px; }
     .charts-grid { grid-template-columns: 1fr; }
     .nav-links { display: none; }
+    .nav-username { display: none; }
   }
 </style>
 </head>
 <body>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">⎈</div>
+    <div class="login-title">Helm Chart Registry</div>
+    <div class="login-sub">Sign in to access your repositories</div>
+
+    <div class="login-field">
+      <label class="login-label" for="login-user">Username</label>
+      <input class="login-input" id="login-user" type="text" placeholder="Enter username" autocomplete="username" />
+    </div>
+
+    <div class="login-field">
+      <label class="login-label" for="login-pass">Password</label>
+      <input class="login-input" id="login-pass" type="password" placeholder="Enter password" autocomplete="current-password" />
+    </div>
+
+    <div class="login-error" id="login-error">⚠ Invalid credentials. Please try again.</div>
+
+    <button class="login-btn" id="login-btn" onclick="doLogin()">🔐 Sign In</button>
+
+    <div class="login-attempts" id="login-attempts"></div>
+
+    <div class="login-footer-note">🔒 Secured — Unauthorized access prohibited</div>
+  </div>
+</div>
+
+<!-- LOGOUT CONFIRM MODAL -->
+<div class="modal-overlay" id="logout-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🚪</div>
+    <div class="modal-title">Sign out?</div>
+    <div class="modal-desc">You'll need to sign in again to access the Helm Chart Registry.</div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeLogoutModal()">Cancel</button>
+      <button class="modal-confirm" onclick="confirmLogout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION BANNER -->
+<div class="session-banner" id="session-banner" style="display:none;">
+  <span class="session-dot"></span>
+  Active session &nbsp;·&nbsp; <strong id="session-user"></strong> &nbsp;·&nbsp; Authenticated
+</div>
 
 <!-- NAV -->
 <nav>
@@ -721,49 +533,41 @@
       <a class="nav-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a>
       <a class="nav-link" href="https://github.com/priyanshu3103/helm-charts" target="_blank">Releases</a>
     </div>
-    <a class="nav-gh" href="https://github.com/priyanshu3103/helm-charts" target="_blank">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
-      GitHub
-    </a>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="nav-avatar" id="nav-avatar">P</div>
+        <span class="nav-username" id="nav-username">priyanshu3103</span>
+      </div>
+      <a class="nav-gh" href="https://github.com/priyanshu3103/helm-charts" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+        GitHub
+      </a>
+      <button class="logout-btn" onclick="showLogoutModal()">🚪 Sign Out</button>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">
-      <span class="hero-dot"></span>
-      Repository · Live on GitHub Pages
-    </div>
+    <div class="hero-badge"><span class="hero-dot"></span>Repository · Live on GitHub Pages</div>
     <h1>Helm Chart Repository</h1>
     <p>Production-ready Helm charts for Kubernetes infrastructure and DevOps tooling.</p>
-
     <div class="hero-cmd">
       <span class="hero-cmd-prompt">$</span>
       <span class="hero-cmd-text" id="addCmd">helm repo add priyanshu https://priyanshu3103.github.io/helm-charts && helm repo update</span>
       <button class="hero-cmd-copy" onclick="copyHero()">Copy</button>
     </div>
-
     <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">2</span>
-        <span class="hero-stat-label">Charts</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">GitOps</span>
-        <span class="hero-stat-label">Ready</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">k3d</span>
-        <span class="hero-stat-label">Tested On</span>
-      </div>
+      <div class="hero-stat"><span class="hero-stat-num">2</span><span class="hero-stat-label">Charts</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">GitOps</span><span class="hero-stat-label">Ready</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">k3d</span><span class="hero-stat-label">Tested On</span></div>
     </div>
   </div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
-
   <div class="toolbar">
     <div class="toolbar-left">
       <span class="toolbar-title">All Charts</span>
@@ -776,26 +580,20 @@
   </div>
 
   <div class="charts-grid">
-
-    <!-- Jenkins Chart -->
+    <!-- Jenkins -->
     <div class="chart-card">
       <div class="card-header">
-        <div class="card-icon-wrap" style="background: #fef3c7;">
-          <span style="font-size:26px;">⚙️</span>
-        </div>
+        <div class="card-icon-wrap" style="background:#fef3c7;">⚙️</div>
         <div class="card-meta">
           <div class="card-name">jenkins</div>
           <div class="card-org">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
-            priyanshu3103
-            <span class="card-verified">✓</span>
+            priyanshu3103 <span class="card-verified">✓</span>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <div class="card-desc">
-          Custom Jenkins Helm chart with master and dynamic Kubernetes agent support. Includes JCasC, GitHub OAuth SSO, and automated plugin installation.
-        </div>
+        <div class="card-desc">Custom Jenkins chart with dynamic Kubernetes agents, JCasC, GitHub OAuth SSO, and automated plugin installation.</div>
         <div class="card-tags">
           <span class="tag tag-orange">ci/cd</span>
           <span class="tag tag-blue">kubernetes-agent</span>
@@ -803,51 +601,33 @@
           <span class="tag tag-green">casc</span>
         </div>
         <div class="card-info-row">
-          <div class="info-item">
-            <span class="info-icon">📦</span>
-            <span>Chart 0.2.14</span>
-          </div>
+          <span>📦 Chart 0.2.14</span>
           <span class="separator">·</span>
-          <div class="info-item">
-            <span class="info-icon">🚀</span>
-            <span>App 2.504</span>
-          </div>
+          <span>🚀 App 2.504</span>
           <span class="separator">·</span>
-          <div class="info-item">
-            <span class="info-icon">⎈</span>
-            <span>v2</span>
-          </div>
+          <span>⎈ v2</span>
         </div>
       </div>
       <div class="card-footer">
-        <div class="install-snippet">
-          <span class="cmd-kw">helm install</span> jenkins priyanshu/jenkins
-        </div>
-        <button class="copy-btn" onclick="copyText(this, 'helm install jenkins priyanshu/jenkins')">
-          📋 Copy
-        </button>
+        <div class="install-snippet"><span class="cmd-kw">helm install</span> jenkins priyanshu/jenkins</div>
+        <button class="copy-btn" onclick="copyText(this, 'helm install jenkins priyanshu/jenkins')">📋 Copy</button>
       </div>
     </div>
 
-    <!-- helm-argocd Chart -->
+    <!-- helm-argocd -->
     <div class="chart-card">
       <div class="card-header">
-        <div class="card-icon-wrap" style="background: #e8f0fe;">
-          <span style="font-size:26px;">⎈</span>
-        </div>
+        <div class="card-icon-wrap" style="background:#e8f0fe;">⎈</div>
         <div class="card-meta">
           <div class="card-name">helm-argocd</div>
           <div class="card-org">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity="0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.03-1.61-4.03-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
-            priyanshu3103
-            <span class="card-verified">✓</span>
+            priyanshu3103 <span class="card-verified">✓</span>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <div class="card-desc">
-          Sample application Helm chart for ArgoCD GitOps deployment. Includes Deployment, Service, Ingress, and ServiceAccount with sensible defaults.
-        </div>
+        <div class="card-desc">Sample application Helm chart for ArgoCD GitOps deployment. Includes Deployment, Service, Ingress and ServiceAccount.</div>
         <div class="card-tags">
           <span class="tag tag-blue">gitops</span>
           <span class="tag tag-purple">argocd</span>
@@ -855,85 +635,57 @@
           <span class="tag tag-orange">ingress</span>
         </div>
         <div class="card-info-row">
-          <div class="info-item">
-            <span class="info-icon">📦</span>
-            <span>Chart 0.2.4</span>
-          </div>
+          <span>📦 Chart 0.2.4</span>
           <span class="separator">·</span>
-          <div class="info-item">
-            <span class="info-icon">🚀</span>
-            <span>App 1.16.0</span>
-          </div>
+          <span>🚀 App 1.16.0</span>
           <span class="separator">·</span>
-          <div class="info-item">
-            <span class="info-icon">⎈</span>
-            <span>v2</span>
-          </div>
+          <span>⎈ v2</span>
         </div>
       </div>
       <div class="card-footer">
-        <div class="install-snippet">
-          <span class="cmd-kw">helm install</span> myapp priyanshu/helm-argocd
-        </div>
-        <button class="copy-btn" onclick="copyText(this, 'helm install myapp priyanshu/helm-argocd')">
-          📋 Copy
-        </button>
+        <div class="install-snippet"><span class="cmd-kw">helm install</span> myapp priyanshu/helm-argocd</div>
+        <button class="copy-btn" onclick="copyText(this, 'helm install myapp priyanshu/helm-argocd')">📋 Copy</button>
       </div>
     </div>
-
   </div>
 
-  <!-- USAGE SECTION -->
+  <!-- USAGE -->
   <div class="index-section">
     <div class="index-header">
-      <div class="index-header-left">
-        <span>📖</span>
-        Usage
-      </div>
+      <div class="index-header-left">📖 Usage</div>
       <a class="nav-link" href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank" style="font-size:12px;">View index.yaml →</a>
     </div>
     <div class="index-body">
       <div class="index-cmd-row">
         <span class="index-cmd-label">Add Repo</span>
-        <div class="index-cmd-text">
-          <span class="kw">helm repo add</span> priyanshu <span class="str">https://priyanshu3103.github.io/helm-charts</span>
-        </div>
+        <div class="index-cmd-text"><span class="kw">helm repo add</span> priyanshu <span class="str">https://priyanshu3103.github.io/helm-charts</span></div>
         <button class="copy-btn" onclick="copyText(this, 'helm repo add priyanshu https://priyanshu3103.github.io/helm-charts')">📋</button>
       </div>
       <div class="index-cmd-row">
         <span class="index-cmd-label">Update</span>
-        <div class="index-cmd-text">
-          <span class="kw">helm repo update</span>
-        </div>
+        <div class="index-cmd-text"><span class="kw">helm repo update</span></div>
         <button class="copy-btn" onclick="copyText(this, 'helm repo update')">📋</button>
       </div>
       <div class="index-cmd-row">
         <span class="index-cmd-label">Search</span>
-        <div class="index-cmd-text">
-          <span class="kw">helm search repo</span> priyanshu
-        </div>
+        <div class="index-cmd-text"><span class="kw">helm search repo</span> priyanshu</div>
         <button class="copy-btn" onclick="copyText(this, 'helm search repo priyanshu')">📋</button>
       </div>
       <div class="index-cmd-row">
         <span class="index-cmd-label">Install</span>
-        <div class="index-cmd-text">
-          <span class="kw">helm install</span> jenkins priyanshu/jenkins <span class="kw">--namespace</span> devops-tools <span class="kw">--create-namespace</span>
-        </div>
+        <div class="index-cmd-text"><span class="kw">helm install</span> jenkins priyanshu/jenkins <span class="kw">--namespace</span> devops-tools <span class="kw">--create-namespace</span></div>
         <button class="copy-btn" onclick="copyText(this, 'helm install jenkins priyanshu/jenkins --namespace devops-tools --create-namespace')">📋</button>
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
-      Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a>
-      &nbsp;·&nbsp;
-      Served via <a href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a>
-      &nbsp;·&nbsp;
+      Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a> ·
+      Served via <a href="https://priyanshu3103.github.io/helm-charts/index.yaml" target="_blank">index.yaml</a> ·
       Built with ⎈ Helm
     </div>
     <div class="footer-right">
@@ -943,37 +695,200 @@
   </div>
 </footer>
 
-<div id="toast">✓ Copied to clipboard</div>
+<div id="toast"></div>
 
 <script>
-function copyText(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✓ Copied';
-    btn.classList.add('copied');
-    showToast();
+  // ─── AUTH CONFIG ───
+  // Change these credentials before deploying!
+  const USERS = {
+    'priyanshu3103': 'helm@secure2026',
+    'admin': 'admin@helm123'
+  };
+
+  const SESSION_KEY = 'helm_auth_session';
+  const SESSION_HOURS = 8;
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_SECONDS = 60;
+
+  let failedAttempts = 0;
+  let lockoutUntil = null;
+  let lockoutTimer = null;
+
+  // Check session on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const session = getSession();
+    if (session) {
+      showApp(session.username);
+    }
+    document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    document.getElementById('login-user').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-pass').focus(); });
+  });
+
+  function getSession() {
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (Date.now() > data.expires) { sessionStorage.removeItem(SESSION_KEY); return null; }
+      return data;
+    } catch { return null; }
+  }
+
+  function setSession(username) {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      username,
+      expires: Date.now() + SESSION_HOURS * 60 * 60 * 1000,
+      loginAt: new Date().toISOString()
+    }));
+  }
+
+  function clearSession() { sessionStorage.removeItem(SESSION_KEY); }
+
+  function doLogin() {
+    if (lockoutUntil && Date.now() < lockoutUntil) {
+      const secs = Math.ceil((lockoutUntil - Date.now()) / 1000);
+      showError(`Account locked. Try again in ${secs}s.`);
+      return;
+    }
+
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value;
+
+    if (!user || !pass) { showError('Please enter username and password.'); return; }
+
+    const btn = document.getElementById('login-btn');
+    btn.innerHTML = '⏳ Signing in...';
+    btn.classList.add('loading');
+
     setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
+      btn.classList.remove('loading');
+      btn.innerHTML = '🔐 Sign In';
 
-function copyHero() {
-  const text = document.getElementById('addCmd').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.hero-cmd-copy');
-    btn.textContent = '✓ Copied!';
-    showToast();
-    setTimeout(() => btn.textContent = 'Copy', 2000);
-  });
-}
+      if (USERS[user] && USERS[user] === pass) {
+        failedAttempts = 0;
+        clearInterval(lockoutTimer);
+        setSession(user);
+        showApp(user);
+        showToast('✓ Signed in as ' + user);
+      } else {
+        failedAttempts++;
+        const remaining = MAX_ATTEMPTS - failedAttempts;
 
-function showToast() {
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+        // Shake
+        const box = document.querySelector('.login-box');
+        box.style.transform = 'translateX(-6px)';
+        setTimeout(() => box.style.transform = 'translateX(6px)', 80);
+        setTimeout(() => box.style.transform = 'translateX(0)', 160);
+        box.style.transition = 'transform 0.08s ease';
+
+        document.getElementById('login-user').classList.add('error');
+        document.getElementById('login-pass').classList.add('error');
+        setTimeout(() => {
+          document.getElementById('login-user').classList.remove('error');
+          document.getElementById('login-pass').classList.remove('error');
+        }, 1500);
+        document.getElementById('login-pass').value = '';
+
+        if (failedAttempts >= MAX_ATTEMPTS) {
+          lockoutUntil = Date.now() + LOCKOUT_SECONDS * 1000;
+          failedAttempts = 0;
+          document.getElementById('login-attempts').textContent = '';
+          startLockoutTimer();
+        } else {
+          showError('Invalid username or password.');
+          document.getElementById('login-attempts').textContent =
+            `${remaining} attempt${remaining !== 1 ? 's' : ''} remaining before lockout`;
+        }
+      }
+    }, 500);
+  }
+
+  function startLockoutTimer() {
+    lockoutTimer = setInterval(() => {
+      if (!lockoutUntil || Date.now() >= lockoutUntil) {
+        clearInterval(lockoutTimer);
+        hideError();
+        document.getElementById('login-attempts').textContent = '';
+        lockoutUntil = null;
+        return;
+      }
+      const secs = Math.ceil((lockoutUntil - Date.now()) / 1000);
+      showError(`🔒 Account locked. Try again in ${secs}s.`);
+    }, 1000);
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('login-error');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function hideError() { document.getElementById('login-error').classList.remove('show'); }
+
+  function showApp(username) {
+    document.getElementById('login-overlay').style.display = 'none';
+    const banner = document.getElementById('session-banner');
+    banner.style.display = 'flex';
+    document.getElementById('session-user').textContent = username;
+    document.getElementById('nav-avatar').textContent = username.charAt(0).toUpperCase();
+    document.getElementById('nav-username').textContent = username;
+  }
+
+  function showLogoutModal() { document.getElementById('logout-modal').classList.add('show'); }
+  function closeLogoutModal() { document.getElementById('logout-modal').classList.remove('show'); }
+
+  function confirmLogout() {
+    clearSession();
+    closeLogoutModal();
+    document.getElementById('login-overlay').style.display = 'flex';
+    document.getElementById('session-banner').style.display = 'none';
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    hideError();
+    document.getElementById('login-attempts').textContent = '';
+    showToast('✓ Signed out successfully');
+  }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Copied';
+      btn.classList.add('copied');
+      showToast('✓ Copied to clipboard');
+      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function copyHero() {
+    const text = document.getElementById('addCmd').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.hero-cmd-copy');
+      btn.textContent = '✓ Copied!';
+      showToast('✓ Copied to clipboard');
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Auto-check session expiry every minute
+  setInterval(() => {
+    const session = getSession();
+    if (!session && document.getElementById('login-overlay').style.display === 'none') {
+      confirmLogout();
+      showToast('⚠ Session expired. Please sign in again.');
+    }
+  }, 60000);
+
+  // Close modal on overlay click
+  document.getElementById('logout-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeLogoutModal();
+  });
 </script>
 </body>
 </html>
