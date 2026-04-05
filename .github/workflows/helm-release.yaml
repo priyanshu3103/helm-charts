@@ -64,7 +64,6 @@ jobs:
           git add -A
           git commit -m "Release ${{ steps.changed.outputs.chart }}-${{ steps.changed.outputs.version }} and cleanup old versions"
           git push
-          git pull
       # ✅ Wait + retry until chart is available
       - name: Wait for Helm repo to update
         run: |
@@ -119,3 +118,18 @@ jobs:
           git diff --staged
           git commit -m "Update $CHART to v$VERSION" || echo "No changes to commit"
           git push
+      - name: Cleanup old chart packages
+        if: steps.changed.outputs.chart != ''
+        run: |
+          CHART=${{ steps.changed.outputs.chart }}
+          NEW_VERSION=${{ steps.changed.outputs.version }}
+          for f in ${CHART}-*.tgz; do
+            if [ "$f" != "${CHART}-${NEW_VERSION}.tgz" ]; then
+              echo "Deleting $f"
+              rm -f "$f"
+            fi
+          done  
+      - name: Get latest pull on helm-charts and helm-argocd
+        run: |
+          git pull origin master
+          git -C helm-argocd pull origin master
