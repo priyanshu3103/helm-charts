@@ -25,18 +25,26 @@ spec:
             - sh
             - -c
             - |
-              jenkins-plugin-cli \
-              --plugin-download-directory=/var/jenkins_home/plugins \
-              --plugins \
-              kubernetes \
-              workflow-aggregator \
-              git \
-              configuration-as-code \
-              job-dsl \
-              github-oauth
+              if [ ! -f /var/jenkins_home/plugins/.plugins-installed ]; then
+                echo "Installing plugins for first time..."
+                jenkins-plugin-cli \
+                --plugin-download-directory=/var/jenkins_home/plugins \
+                --plugins \
+                kubernetes \
+                workflow-aggregator \
+                git \
+                configuration-as-code \
+                job-dsl \
+                github-oauth
+                touch /var/jenkins_home/plugins/.plugins-installed
+                echo "Plugins installed successfully!"
+              else
+                echo "Plugins already installed, skipping..."
+              fi
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
+
 
       containers:
         - name: jenkins

@@ -64,6 +64,7 @@ jobs:
           git add -A
           git commit -m "Release ${{ steps.changed.outputs.chart }}-${{ steps.changed.outputs.version }} and cleanup old versions"
           git push
+          git pull
       # ✅ Wait + retry until chart is available
       - name: Wait for Helm repo to update
         run: |
