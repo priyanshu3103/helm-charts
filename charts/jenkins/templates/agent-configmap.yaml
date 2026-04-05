@@ -37,7 +37,6 @@ data:
             jenkinsUrl: "http://{{ include "jenkins.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}"
             jenkinsTunnel: "{{ include "jenkins.fullname" . }}:{{ .Values.service.agentPort }}"
             skipTlsVerify: true
-            serviceAccount: {{ include "jenkins.serviceAccountName" . | quote }}
             connectTimeout: 5
             readTimeout: 15
             containerCapStr: "10"
