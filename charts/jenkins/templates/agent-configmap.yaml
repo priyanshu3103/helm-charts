@@ -48,7 +48,7 @@ data:
                 idleMinutes: 5
                 containers:
                   - name: "jnlp"
-                    image: "jenkins/inbound-agent:latest"
+                    image: "jenkins/inbound-agent:latest-jdk17"
                     ttyEnabled: true
                     resourceRequestCpu: "100m"
                     resourceRequestMemory: "256Mi"

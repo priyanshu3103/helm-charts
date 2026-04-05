@@ -36,7 +36,7 @@ agent:
   enabled: true
   image:
     repository: jenkins/inbound-agent
-    tag: "latest"
+    tag: "latest-jdk17"
   resources:
     requests:
       cpu: 100m
