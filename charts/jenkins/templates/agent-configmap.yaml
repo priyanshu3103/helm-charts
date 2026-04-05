@@ -63,12 +63,6 @@ data:
     security:
       scriptApproval:
         approvedSignatures: []
-      log:
-    recorders:
-      - name: "kubernetes"
-        loggers:
-          - name: "org.csanchez.jenkins.plugins.kubernetes"
-            level: "WARNING"
     tool:
       git:
         installations:
