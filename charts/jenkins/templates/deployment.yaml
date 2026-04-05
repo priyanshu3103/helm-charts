@@ -9,7 +9,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 5
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       {{- include "jenkins.selectorLabels" . | nindent 6 }}
