@@ -34,6 +34,8 @@ spec:
             - name: JENKINS_HOME
               value: /var/jenkins_home
             - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: JENKINS_JAVA_OPTS
               value: "-Djenkins.install.runSetupWizard=false -Dorg.csanchez.jenkins.plugins.kubernetes.level=WARNING -Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.level=WARNING"
             - name: CASC_JENKINS_CONFIG
               value: "/var/jenkins_home/casc_configs/jenkins.yaml"
