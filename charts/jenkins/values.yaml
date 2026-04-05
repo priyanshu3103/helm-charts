@@ -27,7 +27,7 @@ ingress:
           pathType: Prefix
 
 persistence:
-  enabled: false
+  enabled: true
 
 agent:
   enabled: true
@@ -50,11 +50,7 @@ resources:
     cpu: 1000m
     memory: 1Gi
 
-env:
-  - name: JAVA_OPTS
-    value: "-Djenkins.install.runSetupWizard=false"
-  - name: CASC_JENKINS_CONFIG
-    value: "/var/jenkins_home/casc_configs/jenkins.yaml"
+env: []
 
 casc:
   configMapName: jenkins-jenkins-casc
