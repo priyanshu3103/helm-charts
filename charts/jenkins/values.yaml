@@ -28,6 +28,7 @@ ingress:
 
 persistence:
   enabled: true
+  size: 4Gi
 
 agent:
   enabled: true

@@ -1,12 +1,15 @@
+{{- if .Values.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ include "jenkins.fullname" . }}-pvc
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "jenkins.labels" . | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
   resources:
     requests:
-      storage: 2.5Gi
+      storage: {{ .Values.persistence.size | default "4Gi" }}
+{{- end }}
