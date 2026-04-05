@@ -28,7 +28,8 @@ ingress:
 
 persistence:
   enabled: true
-  size: 4Gi
+  size: 2560Mi
+  storageClassName: local-path
 
 agent:
   enabled: true
