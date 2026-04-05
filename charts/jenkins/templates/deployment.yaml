@@ -5,22 +5,38 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "jenkins.labels" . | nindent 4 }}
-
 spec:
   replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: 5   # ✅ keep history clean
-
+  revisionHistoryLimit: 5
   selector:
     matchLabels:
       {{- include "jenkins.selectorLabels" . | nindent 6 }}
-
   template:
     metadata:
       labels:
         {{- include "jenkins.labels" . | nindent 8 }}
-
     spec:
       serviceAccountName: {{ include "jenkins.serviceAccountName" . }}
+
+      initContainers:
+        - name: install-plugins
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - sh
+            - -c
+            - |
+              jenkins-plugin-cli \
+              --plugin-download-directory=/var/jenkins_home/plugins \
+              --plugins \
+              kubernetes \
+              workflow-aggregator \
+              git \
+              configuration-as-code \
+              job-dsl \
+              github-oauth
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
 
       containers:
         - name: jenkins
@@ -34,11 +50,12 @@ spec:
               containerPort: 50000
 
           env:
-            {{- toYaml .Values.env | nindent 12 }}
             - name: JENKINS_HOME
               value: /var/jenkins_home
             - name: JAVA_OPTS
               value: "-Djenkins.install.runSetupWizard=false"
+            - name: CASC_JENKINS_CONFIG
+              value: "/var/jenkins_home/casc_configs/jenkins.yaml"
             - name: GITHUB_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -52,12 +69,11 @@ spec:
             failureThreshold: 30
             periodSeconds: 10
 
-
           livenessProbe:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 60   # ✅ faster
+            initialDelaySeconds: 60
             timeoutSeconds: 10
             periodSeconds: 30
 
@@ -65,7 +81,7 @@ spec:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 30   # ✅ faster
+            initialDelaySeconds: 30
             timeoutSeconds: 5
             periodSeconds: 10
 
@@ -75,7 +91,6 @@ spec:
           volumeMounts:
             - name: casc-config
               mountPath: /var/jenkins_home/casc_configs
-
             - name: jenkins-home
               mountPath: /var/jenkins_home
 
@@ -83,7 +98,6 @@ spec:
         - name: casc-config
           configMap:
             name: {{ include "jenkins.fullname" . }}-casc
-
         - name: jenkins-home
           persistentVolumeClaim:
-            claimName: {{ include "jenkins.fullname" . }}-pvc   # ✅ persistent storage
+            claimName: {{ include "jenkins.fullname" . }}-pvc
