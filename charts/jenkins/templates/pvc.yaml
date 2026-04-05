@@ -8,4 +8,13 @@ metadata:
     {{- include "jenkins.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-options: Replace=false
+spec:
+  accessModes:
+    - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size | default "10Gi" }}
+  {{- if .Values.persistence.storageClass }}
+  storageClassName: {{ .Values.persistence.storageClass }}
+  {{- end }}
 {{- end }}

@@ -29,7 +29,8 @@ ingress:
 persistence:
   enabled: true
   size: 2560Mi
-  storageClassName: local-path
+  storageClassName: "standard"
+  accessMode: ReadWriteOnce
 
 agent:
   enabled: true
