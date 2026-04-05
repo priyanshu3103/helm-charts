@@ -108,4 +108,4 @@ spec:
             name: {{ include "jenkins.fullname" . }}-casc
         - name: jenkins-home
           persistentVolumeClaim:
-            claimName: {{ include "jenkins.fullname" . }}-pvc
+            claimName: {{ include "jenkins.fullname" . }}-pvc-{{ .Release.Revision }}
