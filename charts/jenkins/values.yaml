@@ -11,6 +11,12 @@ extraConfigMapMounts:
     mountPath: /etc/config/jenkins-config.yaml
     subPath: jenkins-config.yaml
 
+envFrom:
+  - configMapRef:
+      name: jenkins-custom-config
+      optional: false
+
+
 serviceAccount:
   create: true
   name: jenkins
