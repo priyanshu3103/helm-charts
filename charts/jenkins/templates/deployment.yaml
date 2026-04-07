@@ -76,6 +76,15 @@ spec:
               mountPath: /var/jenkins_home/casc_configs
             - name: jenkins-home
               mountPath: /var/jenkins_home
+            {{- if .Values.extraConfigMapMounts }}
+            {{- range .Values.extraConfigMapMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+            {{- end }}
+            {{- end }}
 
       volumes:
         - name: casc-config
@@ -84,3 +93,10 @@ spec:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: {{ include "jenkins.fullname" . }}-pvc-{{ .Release.Revision }}
+        {{- if .Values.extraConfigMapMounts }}
+        {{- range .Values.extraConfigMapMounts }}
+        - name: {{ .name }}
+          configMap:
+            name: {{ .name }}
+        {{- end }}
+        {{- end }}

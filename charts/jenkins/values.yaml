@@ -6,6 +6,11 @@ image:
   tag: "2.541.3-lts-jdk21"
   pullPolicy: IfNotPresent
 
+extraConfigMapMounts:
+  - name: jenkins-custom-config
+    mountPath: /etc/config/jenkins-config.yaml
+    subPath: jenkins-config.yaml
+
 serviceAccount:
   create: true
   name: jenkins
