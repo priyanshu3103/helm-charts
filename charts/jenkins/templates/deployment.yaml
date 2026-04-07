@@ -44,6 +44,8 @@ spec:
                 secretKeyRef:
                   name: jenkins-github-sso
                   key: clientSecret
+          envFrom:
+            {{- toYaml .Values.envFrom | nindent 12 }}
 
           startupProbe:
             httpGet:
