@@ -78,6 +78,7 @@ spec:
               mountPath: /var/jenkins_home/casc_configs
             - name: jenkins-home
               mountPath: /var/jenkins_home
+            # Mount extra config maps for JCasC if specified in values.yaml
             {{- if .Values.extraConfigMapMounts }}
             {{- range .Values.extraConfigMapMounts }}
             - name: {{ .name }}
@@ -95,6 +96,7 @@ spec:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: {{ include "jenkins.fullname" . }}-pvc
+        # Add extra config map volumes for JCasC if specified in values.yaml
         {{- if .Values.extraConfigMapMounts }}
         {{- range .Values.extraConfigMapMounts }}
         - name: {{ .name }}
