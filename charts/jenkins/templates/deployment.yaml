@@ -23,7 +23,7 @@ spec:
       annotations:
         # This will trigger restart when ConfigMap changes
         checksum/config: {{ include (print $.Template.BasePath "/agent-configmap.yaml") . | sha256sum }}
-        checksum/custom-config: {{ include (print $.Template.BasePath "/jenkins-config.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/jenkins-config.yaml") . | sha256sum }}
       labels:
         {{- include "jenkins.labels" . | nindent 8 }}
     spec:
