@@ -94,7 +94,7 @@ spec:
             name: {{ include "jenkins.fullname" . }}-casc
         - name: jenkins-home
           persistentVolumeClaim:
-            claimName: {{ include "jenkins.fullname" . }}-pvc-{{ .Release.Revision }}
+            claimName: {{ include "jenkins.fullname" . }}-pvc
         {{- if .Values.extraConfigMapMounts }}
         {{- range .Values.extraConfigMapMounts }}
         - name: {{ .name }}
