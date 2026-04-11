@@ -7,14 +7,23 @@ metadata:
     {{- include "jenkins.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: 5
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   strategy:
-    type: RollingUpdate
+    type: {{ .Values.deploymentStrategy.type }}
+    {{- if eq .Values.deploymentStrategy.type "RollingUpdate" }}
+    rollingUpdate:
+      maxSurge: {{ .Values.deploymentStrategy.rollingUpdate.maxSurge | default 1 }}
+      maxUnavailable: {{ .Values.deploymentStrategy.rollingUpdate.maxUnavailable | default 0 }}
+    {{- end }}
   selector:
     matchLabels:
       {{- include "jenkins.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        # This will trigger restart when ConfigMap changes
+        checksum/config: {{ include (print $.Template.BasePath "/jenkins-casc.yaml") . | sha256sum }}
+        checksum/custom-config: {{ include (print $.Template.BasePath "/jenkins-config.yaml") . | sha256sum }}
       labels:
         {{- include "jenkins.labels" . | nindent 8 }}
     spec:
@@ -26,9 +35,9 @@ spec:
 
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port }}
             - name: agent
-              containerPort: 50000
+              containerPort: {{ .Values.service.agentPort }}
 
           env:
             - name: JENKINS_HOME

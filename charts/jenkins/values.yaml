@@ -6,41 +6,24 @@ image:
   tag: "2.541.3-lts-jdk21"
   pullPolicy: IfNotPresent
 
-# extraConfigMapMounts:
-#   - name: jenkins-custom-config
-#     mountPath: /etc/config/jenkins-config.yaml
-#     subPath: jenkins-config.yaml
-
-# envFrom:
-#   - configMapRef:
-#       name: jenkins-custom-config
-#       optional: false
-
-
-extraConfigMapMounts:
-  - name: jenkins-jenkins-casc
-    mountPath: /etc/config/jenkins-casc.yaml
-    subPath: jenkins.yaml
-  - name: jenkins-custom-config
-    mountPath: /etc/config/jenkins-custom-config.yaml
-    subPath: jenkins-custom-config.yaml
-
-envFrom:
-  - configMapRef:
-      name: jenkins-jenkins-casc
-      optional: false
-  - configMapRef:
-      name: jenkins-custom-config
-      optional: false
-
-serviceAccount:
-  create: true
-  name: jenkins
+deploymentStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
 
 service:
   type: ClusterIP
   port: 8080
   agentPort: 50000
+
+containerPorts:
+  http: 8080
+  agent: 50000
+
+serviceAccount:
+  create: true
+  name: jenkins
 
 ingress:
   enabled: true
@@ -59,6 +42,32 @@ persistence:
   storageClassName: "standard"
   accessMode: ReadWriteOnce
 
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+env: []
+
+# Only custom config for env vars
+envFrom:
+  - configMapRef:
+      name: jenkins-custom-config
+      optional: true
+
+# Volume mounts for ConfigMaps
+extraConfigMapMounts:
+  - name: jenkins-jenkins-casc
+    mountPath: /etc/config/jenkins-casc.yaml
+    subPath: jenkins.yaml
+  - name: jenkins-custom-config
+    mountPath: /etc/config/jenkins-config.yaml
+    subPath: jenkins-config.yaml
+
+
 agent:
   enabled: true
   image:
@@ -71,16 +80,3 @@ agent:
     limits:
       cpu: 500m
       memory: 512Mi
-
-resources:
-  requests:
-    cpu: 500m
-    memory: 512Mi
-  limits:
-    cpu: 1000m
-    memory: 1Gi
-
-env: []
-
-casc:
-  configMapName: jenkins-jenkins-casc
