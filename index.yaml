@@ -3,7 +3,7 @@ entries:
   grafana:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.081476881Z"
+    created: "2026-04-11T16:28:37.200411007Z"
     description: Grafana dashboards for monitoring Kubernetes workloads.
     digest: 5c1f87a3d54a06b8cf9e0bfaf85e5d54f483e9bb0363f1bb9e0a53b0aff91146
     name: grafana
@@ -13,7 +13,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.083507367Z"
+    created: "2026-04-11T16:28:37.202592198Z"
     description: Grafana dashboards for monitoring Kubernetes workloads.
     digest: e5e9d32b02e584e8ebea9085c8af8f4e411ec7e1f4d83dd51890f13a83485299
     name: grafana
@@ -24,18 +24,18 @@ entries:
   jenkins:
   - apiVersion: v2
     appVersion: "2.504"
-    created: "2026-04-11T16:21:05.081927843Z"
+    created: "2026-04-11T16:28:37.200841482Z"
     description: Custom Jenkins Helm Chart with Master and Agents
-    digest: adff6102f5bcbf423c7dafb5cb18165f1c1eaab14643538a5d082b672bdca768
+    digest: 50cfdc54ffa7401e14e9faa635ec57d49ef320bdebe74cf16e2519a567eb7b53
     name: jenkins
     type: application
     urls:
-    - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.64.tgz
-    version: 0.2.64
+    - https://priyanshu3103.github.io/helm-charts/jenkins-0.2.65.tgz
+    version: 0.2.65
   nginx:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.083881108Z"
+    created: "2026-04-11T16:28:37.202968002Z"
     description: A Helm chart for deploying Nginx on Kubernetes.
     digest: 9d9e179886ea93c7a4f080f0b21d2ba00830a5ce3418c005fe4930c9da8ca07a
     name: nginx
@@ -45,7 +45,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.082356623Z"
+    created: "2026-04-11T16:28:37.201275024Z"
     description: A Helm chart for Kubernetes
     digest: 2521d880da2fe4657da166eb99f1c6812aa182d7480e57b1ba1364c8f40e2878
     name: nginx
@@ -56,7 +56,7 @@ entries:
   prometheus:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.084248054Z"
+    created: "2026-04-11T16:28:37.203373781Z"
     description: A Prometheus Helm chart for application monitoring.
     digest: 277010b31dca388e8daf8b8975714ff6725efbe8304012753d1e5189b1ea9fe4
     name: prometheus
@@ -66,7 +66,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.082741019Z"
+    created: "2026-04-11T16:28:37.201696933Z"
     description: A Helm chart for Kubernetes
     digest: 26e1fd6be9ae07d7ef4997a8a613bcb2e1f8608e174fad370b87210766f96f10
     name: prometheus
@@ -77,7 +77,7 @@ entries:
   redis:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.084716968Z"
+    created: "2026-04-11T16:28:37.203745457Z"
     description: A Helm chart for deploying Redis on Kubernetes.
     digest: 09818ead6223bd8f39145fb0f48d6b1d4ff8e49e8b9c069046860bc6701db701
     name: redis
@@ -87,7 +87,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-04-11T16:21:05.083125065Z"
+    created: "2026-04-11T16:28:37.202091181Z"
     description: A Helm chart for Kubernetes
     digest: 01723ca91cc59c610e306319fa33bc8f73e39f12f7db7d332a22c1a5b4842a9e
     name: redis
@@ -95,4 +95,4 @@ entries:
     urls:
     - https://priyanshu3103.github.io/helm-charts/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-11T16:21:05.080563827Z"
+generated: "2026-04-11T16:28:37.199546447Z"
