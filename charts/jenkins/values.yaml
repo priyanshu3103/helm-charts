@@ -3,7 +3,7 @@ revisionHistoryLimit: 5
 
 image:
   repository: jenkins/jenkins
-  tag: "2.541.3-lts-jdk21"
+  tag: "2.440.3-lts"
   pullPolicy: IfNotPresent
 
 # extraConfigMapMounts:
