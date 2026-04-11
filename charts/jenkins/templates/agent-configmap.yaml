@@ -17,18 +17,19 @@ data:
           clientID: "Ov23liaF49Qq14uOhF33"
           clientSecret: "${GITHUB_CLIENT_SECRET}"
           oauthScopes: "read:org,user:email"
+          # Optional but recommended:
+          # clientSecretRedacted: false   # Only if needed
+
       authorizationStrategy:
         github:
           adminUserNames: "priyanshu3103"
-          agentUserName: ""
-          allowAnonymousJobStatusPermission: false
-          allowAnonymousReadPermission: false
-          allowCcTrayPermission: false
-          allowGithubWebHookPermission: false
-          authenticatedUserCreateJobPermission: false
-          authenticatedUserReadPermission: true
           organizationNames: ""
           useRepositoryPermissions: false
+          authenticatedUserReadPermission: true
+          authenticatedUserCreateJobPermission: false
+          allowGithubWebHookPermission: false
+          allowAnonymousReadPermission: false
+          allowAnonymousJobStatusPermission: false
       clouds:
         - kubernetes:
             name: "kubernetes"
