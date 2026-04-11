@@ -50,6 +50,7 @@ data:
                 containers:
                   - name: "jnlp"
                     image: "priyanshu30/jenkins-mysql:tag-2"
+                    workingDir: "/home/jenkins/agent"
                     ttyEnabled: true
                     resourceRequestCpu: "100m"
                     resourceRequestMemory: "256Mi"
