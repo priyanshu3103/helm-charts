@@ -55,7 +55,7 @@ env: []
 # Only custom config for env vars
 envFrom:
   - configMapRef:
-      name: jenkins-custom-config
+      name: jenkins-app-config
       optional: true
 
 # Volume mounts for ConfigMaps
@@ -63,7 +63,7 @@ extraConfigMapMounts:
   - name: jenkins-jenkins-casc
     mountPath: /etc/config/jenkins-casc.yaml
     subPath: jenkins.yaml
-  - name: jenkins-custom-config
+  - name: jenkins-app-config
     mountPath: /etc/config/jenkins-config.yaml
     subPath: jenkins-config.yaml
 

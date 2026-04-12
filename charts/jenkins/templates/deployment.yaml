@@ -24,7 +24,7 @@ spec:
         # This will trigger restart when ConfigMap changes
         checksum/config: {{ include (print $.Template.BasePath "/agent-configmap.yaml") . | sha256sum }}
         # Checksum for external ConfigMap from helm-argocd repo
-        checksum/external-config: {{ lookup "v1" "ConfigMap" .Release.Namespace "jenkins-custom-config" | default "" | sha256sum }}
+        checksum/external-config: {{ lookup "v1" "ConfigMap" .Release.Namespace "jenkins-app-config" | default "" | sha256sum }}
       labels:
         {{- include "jenkins.labels" . | nindent 8 }}
     spec:
@@ -54,31 +54,46 @@ spec:
                 secretKeyRef:
                   name: jenkins-github-sso
                   key: clientSecret
+            # Dynamic env from ConfigMap
+            {{- range $key, $value := .Values.configMapEnv }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+
+            {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
           envFrom:
+            - configMapRef:
+                name: jenkins-app-config
+                optional: true
+            {{- if .Values.envFrom }}
             {{- toYaml .Values.envFrom | nindent 12 }}
+            {{- end }}
 
           startupProbe:
             httpGet:
               path: /login
               port: http
-            failureThreshold: 30
-            periodSeconds: 10
+            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 30 }}
+            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 10 }}
 
           livenessProbe:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
-            periodSeconds: 30
+            initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds | default 60 }}
+            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 10 }}
+            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 30 }}
 
           readinessProbe:
             httpGet:
               path: /login
               port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds | default 30 }}
+            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 5 }}
+            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
