@@ -76,24 +76,41 @@ spec:
             httpGet:
               path: /login
               port: http
+            {{- if .Values.probes.startupProbe }}
             failureThreshold: {{ .Values.probes.startupProbe.failureThreshold | default 30 }}
             periodSeconds: {{ .Values.probes.startupProbe.periodSeconds | default 10 }}
-
+            {{- else }}
+            failureThreshold: 30
+            periodSeconds: 10
+            {{- end }}
+          
           livenessProbe:
             httpGet:
               path: /login
               port: http
+            {{- if .Values.probes.livenessProbe }}
             initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds | default 60 }}
             timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds | default 10 }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds | default 30 }}
-
+            {{- else }}
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 30
+            {{- end }}
+          
           readinessProbe:
             httpGet:
               path: /login
               port: http
+            {{- if .Values.probes.readinessProbe }}
             initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds | default 30 }}
             timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds | default 5 }}
             periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds | default 10 }}
+            {{- else }}
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 10
+            {{- end }}
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
