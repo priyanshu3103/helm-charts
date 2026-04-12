@@ -4,9 +4,9 @@
 
 {{- define "jenkins.fullname" -}}
 {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- .Release.Name }}-{{ include "jenkins.name" . }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
